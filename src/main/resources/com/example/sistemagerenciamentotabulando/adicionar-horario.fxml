@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sistemagerenciamentotabulando.controller.AdicionarHorarioController">
+   <children>
+      <Label layoutX="57.0" layoutY="24.0" text="Adicionar Horário">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="29.0" layoutY="76.0" text="Dia da Semana">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="29.0" layoutY="139.0" text="Turno">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="29.0" layoutY="200.0" text="Hora">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="29.0" layoutY="260.0" text="Nome do Monitor">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <TextField fx:id="nomeMonitor" layoutX="29.0" layoutY="278.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o nome do monitor" />
+      <Button layoutX="31.0" layoutY="328.0" mnemonicParsing="false" onAction="#onCancelarAdcHorarioClicked" prefHeight="34.0" prefWidth="78.0" style="-fx-background-color: #666666;" text="Cancelar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnFechar" layoutX="142.0" layoutY="328.0" mnemonicParsing="false" onAction="#onAdcHorarioClicked" prefHeight="34.0" prefWidth="78.0" style="-fx-background-color: #f58220;" text="Salvar" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Button layoutX="12.0" layoutY="23.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="34.0" text="&lt;-" />
+      <TextField fx:id="hora" layoutX="29.0" layoutY="218.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o horário" />
+      <TextField fx:id="turno" layoutX="29.0" layoutY="157.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o turno" />
+      <TextField fx:id="diaSemana" layoutX="29.0" layoutY="94.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o dia" />
+   </children>
+</AnchorPane>
