@@ -50,15 +50,18 @@ public class HorarioDAOJDBC implements HorarioDAO {
         PreparedStatement st = null;
 
         try {
-            st = conn.prepareStatement("update horario set campo = ? where id_horario=?");
-            st.setString(1, valor);
-            st.setInt(2, h.getId_horario());
+            st = conn.prepareStatement("update horario set dia_semana = ?, turno = ?, hora = ?, nome_monitor = ? where id_horario=?");
+            st.setString(1, h.getDiaSemana());
+            st.setString(2, h.getTurno());
+            st.setString(3, h.getHora());
+            st.setString(4, h.getNomeMonitor());
+            st.setInt(5, h.getId_horario());
+            st.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             DB.closeStatement(st);
         }
-
     }
 
     @Override

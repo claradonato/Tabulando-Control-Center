@@ -5,20 +5,26 @@ import com.example.sistemagerenciamentotabulando.model.entities.Horario;
 import com.example.sistemagerenciamentotabulando.model.entities.Jogo;
 import com.example.sistemagerenciamentotabulando.model.entities.Visitante;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 public class ExibirHorarioController {
+    private Horario horario;
+
     @FXML
     private Label descricaoHorario;
     @FXML
     private Label nomeMonitor;
+
+    @FXML
+    protected void onAtualizarHorarioClicked(){
+        FXMLLoader loader = Application.abrirNovaJanela("editar-horario-view.fxml");
+        EditarHorarioController controller = loader.getController();
+        controller.carregarHorario(horario);
+    }
 
     // AnchorPane esquerdo com dados dos visitantes
     @FXML
@@ -81,6 +87,8 @@ public class ExibirHorarioController {
 
     @FXML
     public void carregarHorario(Horario h) {
+        this.horario = h;
+
         descricaoHorario.setText(h.getDiaSemana() + " - " + h.getTurno() + "(" + h.getHora() + ")");
         nomeMonitor.setText("Monitor: " + h.getNomeMonitor());
     }

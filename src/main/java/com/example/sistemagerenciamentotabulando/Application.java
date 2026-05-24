@@ -58,6 +58,23 @@ public class Application extends javafx.application.Application {
         return loader;
     }
 
+    public static FXMLLoader abrirNovaJanela(String arquivoFXML) {
+        FXMLLoader loader = new FXMLLoader(
+                Application.class.getResource(arquivoFXML)
+        );
+        try {
+            Scene scene = new Scene(loader.load());
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return loader;
+    }
+
     public static void main(String[] args) {
         launch();
     }

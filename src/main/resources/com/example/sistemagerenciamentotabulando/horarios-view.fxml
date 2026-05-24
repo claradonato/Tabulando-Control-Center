@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -75,7 +74,7 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <TableView fx:id="listagemHorarios" layoutX="139.0" layoutY="84.0" prefHeight="282.0" prefWidth="455.0" style="-fx-background-color: #ffffff;">
+            <TableView fx:id="listagemHorarios" layoutX="139.0" layoutY="69.0" prefHeight="318.0" prefWidth="455.0" style="-fx-background-color: #ffffff;">
               <columns>
                 <TableColumn fx:id="colDiaSemana" prefWidth="108.0" text="Dia da semana" />
                 <TableColumn fx:id="colTurno" prefWidth="91.20001220703125" text="Turno" />
@@ -88,9 +87,16 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <TextField fx:id="idHorario" layoutX="265.0" layoutY="31.0" prefHeight="26.0" prefWidth="107.0" promptText="id horário" />
-            <Button layoutX="384.0" layoutY="30.0" mnemonicParsing="false" onAction="#onBuscarHorarioClicked" text="Buscar" />
             <Label fx:id="retornoHorario" layoutX="147.0" layoutY="58.0" prefHeight="18.0" prefWidth="326.0" textFill="WHITE" />
+            <Button layoutX="414.0" layoutY="30.0" mnemonicParsing="false" onAction="#onRefreshButtonClicked" prefHeight="26.0" prefWidth="31.0" style="-fx-background-color: #ffe9e9;">
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/refresh-button.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </AnchorPane>
    </children>
