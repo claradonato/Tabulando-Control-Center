@@ -8,4 +8,7 @@ public class DashBoardController {
     protected void onHorariosClicked(){
         Application.criarTela("horarios-view.fxml");
     }
+
+    @FXML
+    protected void onJogosClicked(){ Application.criarTela("jogos-view.fxml"); }
 }

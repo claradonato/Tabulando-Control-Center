@@ -28,6 +28,17 @@ public class Jogo {
         this.tempoPartida = tempoPartida;
     }
 
+    public Jogo(String titulo, String tipo, Integer minimoNumeroJogadores, Integer maximoNumeroJogadores, String descricao, String marca, Integer faixaEtaria, Integer tempoPartida) {
+        this.titulo = titulo;
+        this.tipo = tipo;
+        this.minimoNumeroJogadores = minimoNumeroJogadores;
+        this.maximoNumeroJogadores = maximoNumeroJogadores;
+        this.descricao = descricao;
+        this.marca = marca;
+        this.faixaEtaria = faixaEtaria;
+        this.tempoPartida = tempoPartida;
+    }
+
     public Integer getId() {
         return id;
     }
