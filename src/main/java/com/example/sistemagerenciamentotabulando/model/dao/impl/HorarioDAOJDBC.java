@@ -46,7 +46,7 @@ public class HorarioDAOJDBC implements HorarioDAO {
     }
 
     @Override
-    public void atualizar(Horario h, String campo, String valor) {
+    public void atualizar(Horario h) {
         PreparedStatement st = null;
 
         try {

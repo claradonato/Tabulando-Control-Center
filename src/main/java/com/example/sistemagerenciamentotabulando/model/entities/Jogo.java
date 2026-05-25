@@ -16,7 +16,7 @@ public class Jogo {
 
     private List<Horario> horariosPresente = new ArrayList<>();
 
-    public Jogo(Integer id, String titulo, String tipo, Integer minimoNumeroJogadores, Integer maximoNumeroJogadores, String descricao, String marca, Integer faixaEtaria, Integer tempoPartida, List<Horario> horariosPresente) {
+    public Jogo(Integer id, String titulo, String tipo, Integer minimoNumeroJogadores, Integer maximoNumeroJogadores, String descricao, String marca, Integer faixaEtaria, Integer tempoPartida) {
         this.id = id;
         this.titulo = titulo;
         this.tipo = tipo;

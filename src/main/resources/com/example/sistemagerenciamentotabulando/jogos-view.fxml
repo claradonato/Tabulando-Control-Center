@@ -46,12 +46,12 @@
                               <Cursor fx:constant="DISAPPEAR" />
                            </cursor>
                         </ImageView>
-                        <Button mnemonicParsing="false" prefHeight="46.0" prefWidth="129.0" style="-fx-background-color: #f58220;" text="Horários" textFill="WHITE" GridPane.rowIndex="2">
+                        <Button mnemonicParsing="false" prefHeight="46.0" prefWidth="129.0" style="-fx-background-color: #ffffff;" text="Horários" GridPane.rowIndex="2">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="46.0" prefWidth="142.0" style="-fx-background-color: #ffffff;" text="Jogos" GridPane.rowIndex="3">
+                        <Button mnemonicParsing="false" prefHeight="46.0" prefWidth="142.0" style="-fx-background-color: #f58220;" text="Jogos" textFill="WHITE" GridPane.rowIndex="3">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>

@@ -97,4 +97,9 @@ public class ExibirHorarioController {
     protected void onVoltarHorarioClicked(){
         Application.trocarTela("horarios-view.fxml", Application.getStagePrincipal());
     }
+
+    @FXML
+    protected void onRefreshButtonClicked(){
+        carregarHorario(this.horario);
+    }
 }
