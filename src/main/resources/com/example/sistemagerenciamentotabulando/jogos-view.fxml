@@ -122,6 +122,15 @@
                   <Font size="14.0" />
                </font>
             </Label>
+            <Button layoutX="513.0" layoutY="30.0" mnemonicParsing="false" onAction="#onRefreshButtonClicked" prefHeight="26.0" prefWidth="31.0" style="-fx-background-color: #ffe9e9;">
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/refresh-button.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </AnchorPane>
    </children>

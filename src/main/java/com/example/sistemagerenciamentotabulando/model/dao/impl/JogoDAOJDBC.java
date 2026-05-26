@@ -55,7 +55,17 @@ public class JogoDAOJDBC implements JogoDAO {
 
     @Override
     public void deletarPorId(Integer id_jogo) {
+        PreparedStatement st = null;
 
+        try {
+            st = conn.prepareStatement("delete from jogo where id_jogo=?");
+            st.setInt(1, id_jogo);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DB.closeStatement(st);
+        }
     }
 
     @Override
