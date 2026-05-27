@@ -50,7 +50,25 @@ public class JogoDAOJDBC implements JogoDAO {
 
     @Override
     public void atualizar(Jogo j) {
+        PreparedStatement st = null;
 
+        try {
+            st = conn.prepareStatement("update jogo set titulo = ?, tipo = ?, min_numero_jogadores = ?, max_numero_jogadores = ?, descricao = ?, marca = ?, faixaEtaria = ?, tempo_partida = ? where id_jogo=?");
+            st.setString(1, j.getTitulo());
+            st.setString(2, j.getTipo());
+            st.setInt(3, j.getMinimoNumeroJogadores());
+            st.setInt(4, j.getMaximoNumeroJogadores());
+            st.setString(5, j.getDescricao());
+            st.setString(6, j.getMarca());
+            st.setInt(7, j.getFaixaEtaria());
+            st.setInt(8, j.getTempoPartida());
+            st.setInt(9, j.getId());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DB.closeStatement(st);
+        }
     }
 
     @Override

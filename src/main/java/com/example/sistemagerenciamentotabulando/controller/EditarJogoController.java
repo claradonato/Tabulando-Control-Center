@@ -63,9 +63,12 @@ public class EditarJogoController {
         jogo.setMinimoNumeroJogadores(Integer.valueOf(minJogadores.getText()));
         jogo.setMaximoNumeroJogadores(Integer.valueOf(maxJogadores.getText()));
         jogo.setDescricao(descricao.getText());
-        jogo.setMarca(faixaEtaria.getText());
-        jogo.setFaixaEtaria(Integer.valueOf(tempoPartida.getText()));
+        jogo.setMarca(marca.getText());
+        jogo.setFaixaEtaria(Integer.valueOf(faixaEtaria.getText()));
+        jogo.setTempoPartida(Integer.valueOf(tempoPartida.getText()));
+
         DAOFactory.createJogoDAO().atualizar(jogo);
+        System.out.println("Atualizado no BD.");
 
         fecharTela();
     }

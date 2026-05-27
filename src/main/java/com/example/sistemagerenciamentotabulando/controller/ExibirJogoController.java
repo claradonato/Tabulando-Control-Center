@@ -27,13 +27,13 @@ public class ExibirJogoController {
     @FXML
     public void carregarJogo(Jogo j) {
         this.jogo = j;
-        titulo.setText(jogo.getTitulo());
-        tipo.setText(jogo.getTipo());
-        numJogadores.setText(String.valueOf(jogo.getMinimoNumeroJogadores()));
-        descricao.setText(jogo.getDescricao());
-        marca.setText(jogo.getMarca());
-        faixaEtaria.setText(String.valueOf(jogo.getFaixaEtaria()));
-        tempoPartida.setText(String.valueOf(jogo.getTempoPartida()));
+        titulo.setText("Título: " + jogo.getTitulo());
+        tipo.setText("Tipo: " + jogo.getTipo());
+        numJogadores.setText("Número de jogadores: " + String.valueOf(jogo.getMinimoNumeroJogadores()) + " - " + String.valueOf(jogo.getMaximoNumeroJogadores()));
+        descricao.setText("Descrição: " + jogo.getDescricao());
+        marca.setText("Marca: " + jogo.getMarca());
+        faixaEtaria.setText("Faixa etária: " + String.valueOf(jogo.getFaixaEtaria()));
+        tempoPartida.setText("Tempo de partida: " + String.valueOf(jogo.getTempoPartida()));
     }
 
     @FXML

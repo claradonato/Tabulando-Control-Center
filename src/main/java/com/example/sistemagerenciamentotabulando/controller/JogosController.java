@@ -88,7 +88,6 @@ public class JogosController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("Initialize jogos");
         configurarColunas();
         configurarColunaAcoes();
         carregarDados();
@@ -96,7 +95,6 @@ public class JogosController implements Initializable {
 
     @FXML
     protected void onRefreshButtonClicked(){
-        System.out.println("Ta fazendo refresh");
         carregarDados();
     }
 }
