@@ -96,6 +96,7 @@ public class JogosController implements Initializable {
 
     @FXML
     protected void onRefreshButtonClicked(){
+        System.out.println("Ta fazendo refresh");
         carregarDados();
     }
 }

@@ -30,9 +30,6 @@ public class AdicionarHorarioController {
     }
 
     @FXML
-    protected void onCancelarAdcHorarioClicked(){ fecharTela(); }
-
-    @FXML
     protected void onAdcHorarioClicked(){
         Horario h = new Horario(diaSemana.getText(), turno.getText(), hora.getText(), nomeMonitor.getText());
         DAOFactory.createHorarioDAO().inserir(h);

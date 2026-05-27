@@ -1,7 +1,9 @@
 package com.example.sistemagerenciamentotabulando.controller;
 
+import com.example.sistemagerenciamentotabulando.Application;
 import com.example.sistemagerenciamentotabulando.model.entities.Jogo;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 
 public class ExibirJogoController {
@@ -36,6 +38,13 @@ public class ExibirJogoController {
 
     @FXML
     protected void onRefreshButtonClicked(){
-        carregarJogo(jogo);
+        carregarJogo(this.jogo);
+    }
+
+    @FXML
+    protected void onAtualizarJogoClicked(){
+        FXMLLoader loader = Application.abrirNovaJanela("editar-jogo-view.fxml");
+        EditarJogoController controller = loader.getController();
+        controller.carregarJogo(jogo);
     }
 }
