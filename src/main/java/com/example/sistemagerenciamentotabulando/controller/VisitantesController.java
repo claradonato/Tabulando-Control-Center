@@ -7,11 +7,12 @@ import com.example.sistemagerenciamentotabulando.model.entities.Visitante;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 
 import java.net.URL;
 import java.util.List;
@@ -46,9 +47,46 @@ public class VisitantesController implements Initializable {
         colCurso.setCellValueFactory(new PropertyValueFactory<>("curso"));
     }
 
+    private void configurarColunaAcoes(){
+        colAcoes.setCellFactory(coluna -> new TableCell<>() {
+            private final Button btnVer = new Button("Ver");
+            private final Button btnExcluir = new Button("Excluir");
+            { //bloco inicializador que roda quando a célula é criada | construtor interno
+                btnVer.setStyle("-fx-background-color: #f58220; -fx-text-fill: white;");
+                btnExcluir.setStyle("-fx-background-color: #d9534f; -fx-text-fill: white;");
+
+                btnVer.setOnAction(event -> {
+                    Visitante v = getTableView().getItems().get(getIndex());
+                    FXMLLoader loader = Application.trocarTela("exibir-visitante-view.fxml", Application.getStagePrincipal());
+                    ExibirVisitanteController controller = loader.getController();
+                    controller.carregarVisitante(v);
+                });
+
+                btnExcluir.setOnAction(event -> {
+                    Visitante v = getTableView().getItems().get(getIndex());
+                    DAOFactory.createVisitanteDAO().deletarPorMatricula(v.getMatricula());
+                    carregarDados();
+                });
+            }
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if(empty){ //remove os botões de células que estão vazias
+                    setGraphic(null);
+                } else {
+                    HBox botoes = new HBox(5, btnVer, btnExcluir);
+                    botoes.setAlignment(Pos.CENTER);
+                    setGraphic(botoes);
+                }
+            }
+        });
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         configurarColunas();
+        configurarColunaAcoes();
         carregarDados();
     }
 

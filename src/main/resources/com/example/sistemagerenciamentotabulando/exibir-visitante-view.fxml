@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="433.0" prefWidth="693.0" style="-fx-background-color: #f2f0ef;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sistemagerenciamentotabulando.controller.ExibirVisitanteController">
+   <children>
+      <Label layoutX="75.0" layoutY="21.0" text="Cadastro do visitante">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button layoutX="14.0" layoutY="21.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="44.0" text="&lt;--" />
+      <Button layoutX="572.0" layoutY="378.0" mnemonicParsing="false" onAction="#onEditarCadastroClicked" prefHeight="36.0" prefWidth="106.0" style="-fx-background-color: #f58220;" text="Editar Cadastro" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="130.0" fitWidth="92.0" layoutX="75.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/Tabulando.png" />
+         </image></ImageView>
+      <Button layoutX="522.0" layoutY="382.0" mnemonicParsing="false" onAction="#onRefreshButtonClicked" prefHeight="26.0" prefWidth="31.0" style="-fx-background-color: #ffe9e9;">
+         <graphic>
+            <ImageView fitHeight="18.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/refresh-button.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Label layoutX="240.0" layoutY="79.0" prefHeight="26.0" prefWidth="50.0" text="Nome:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="nome" layoutX="328.0" layoutY="79.0" prefHeight="26.0" prefWidth="307.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="240.0" layoutY="105.0" prefHeight="26.0" prefWidth="67.0" text="Matrícula:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="matricula" layoutX="326.0" layoutY="105.0" prefHeight="26.0" prefWidth="169.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="240.0" layoutY="131.0" prefHeight="26.0" prefWidth="67.0" text="Idade:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="idade" layoutX="325.0" layoutY="131.0" prefHeight="26.0" prefWidth="44.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="240.0" layoutY="157.0" prefHeight="26.0" prefWidth="67.0" text="Gênero:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="genero" layoutX="325.0" layoutY="157.0" prefHeight="26.0" prefWidth="124.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="58.0" layoutY="210.0" prefHeight="26.0" prefWidth="50.0" text="Curso:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="curso" layoutX="153.0" layoutY="210.0" prefHeight="26.0" prefWidth="307.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="58.0" layoutY="246.0" prefHeight="26.0" prefWidth="50.0" text="Turno:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="turno" layoutX="150.0" layoutY="246.0" prefHeight="26.0" prefWidth="124.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="58.0" layoutY="285.0" prefHeight="26.0" prefWidth="92.0" text="Possui NEE:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="possuiNEE" layoutX="150.0" layoutY="285.0" prefHeight="26.0" prefWidth="124.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

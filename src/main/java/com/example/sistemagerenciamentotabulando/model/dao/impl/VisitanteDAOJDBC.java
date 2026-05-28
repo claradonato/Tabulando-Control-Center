@@ -41,12 +41,40 @@ public class VisitanteDAOJDBC implements VisitanteDAO {
 
     @Override
     public void atualizar(Visitante v) {
+        PreparedStatement st = null;
 
+        try {
+            st = conn.prepareStatement("update visitante set matricula = ?, nome = ?, idade = ?, genero = ?, nivel_ensino = ?, curso = ?, turno = ?, possuiNEE = ? where matricula = ?");
+            st.setInt(1, v.getMatricula());
+            st.setString(2, v.getNome());
+            st.setInt(3, v.getIdade());
+            st.setString(4, v.getGenero());
+            st.setString(5, v.getNivel_ensino());
+            st.setString(6, v.getCurso());
+            st.setString(7, v.getTurno());
+            st.setBoolean(8, v.getPossuiNEE());
+            st.setInt(9, v.getMatricula());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DB.closeStatement(st);
+        }
     }
 
     @Override
     public void deletarPorMatricula(Integer matricula) {
+        PreparedStatement st = null;
 
+        try {
+            st = conn.prepareStatement("delete from visitante where matricula=?");
+            st.setInt(1, matricula);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DB.closeStatement(st);
+        }
     }
 
     @Override
