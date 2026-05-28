@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.util.List;
@@ -38,8 +39,16 @@ public class VisitantesController implements Initializable {
         listagemVisitantes.setItems(obsVisitantes);
     }
 
+    protected void configurarColunas(){
+        colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        colGenero.setCellValueFactory(new PropertyValueFactory<>("genero"));
+        colIdade.setCellValueFactory(new PropertyValueFactory<>("idade"));
+        colCurso.setCellValueFactory(new PropertyValueFactory<>("curso"));
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        configurarColunas();
         carregarDados();
     }
 
