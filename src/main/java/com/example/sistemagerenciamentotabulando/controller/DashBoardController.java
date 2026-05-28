@@ -11,4 +11,7 @@ public class DashBoardController {
 
     @FXML
     protected void onJogosClicked(){ Application.criarTela("jogos-view.fxml"); }
+
+    @FXML
+    protected void onVisitantesClicked(){ Application.criarTela("visitantes-view.fxml");}
 }

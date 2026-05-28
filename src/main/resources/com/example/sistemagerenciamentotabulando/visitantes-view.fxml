@@ -1,14 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.sistemagerenciamentotabulando.controller.VisitantesController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="433.0" prefWidth="693.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sistemagerenciamentotabulando.controller.VisitantesController">
+   <children>
+      <Label layoutX="178.0" layoutY="36.0" text="Horários">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="694.0" style="-fx-background-color: #666666;">
+         <children>
+            <AnchorPane prefHeight="440.0" prefWidth="130.0" style="-fx-background-color: #ffffff;">
+               <children>
+                  <GridPane layoutX="6.0" layoutY="25.0" prefHeight="350.0" prefWidth="116.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="122.8" minWidth="10.0" prefWidth="122.8" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.79998779296875" minWidth="0.0" prefWidth="0.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="99.19998397827149" minHeight="10.0" prefHeight="86.40001220703125" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="104.7999938964844" minHeight="0.0" prefHeight="95.8" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="145.60000000000002" minHeight="0.0" prefHeight="93.39999999999998" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="262.4" minHeight="0.0" prefHeight="92.79996337890623" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="262.4" minHeight="10.0" prefHeight="92.79996337890623" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <ImageView disable="true" fitHeight="112.0" fitWidth="98.0" pickOnBounds="true" GridPane.halignment="CENTER">
+                           <image>
+                              <Image url="@images/Tabulando.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="DISAPPEAR" />
+                           </cursor>
+                        </ImageView>
+                        <Button mnemonicParsing="false" prefHeight="46.0" prefWidth="129.0" style="-fx-background-color: #ffffff;" text="Horários" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="46.0" prefWidth="142.0" style="-fx-background-color: #ffffff;" text="Jogos" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Button>
+                        <Button alignment="CENTER" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="46.0" prefWidth="131.0" style="-fx-background-color: #ffffff;" text="Dashboard" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" prefHeight="46.0" prefWidth="130.0" style="-fx-background-color: #f58220;" text="Visitantes" textFill="WHITE" GridPane.rowIndex="4">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+            <Label layoutX="144.0" layoutY="25.0" text="Visitantes" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <Button layoutX="536.0" layoutY="28.0" mnemonicParsing="false" onAction="#onNovoVisitanteClicked" prefHeight="30.0" prefWidth="142.0" style="-fx-background-color: #f58220;" text="+ Novo Visitante" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Label layoutX="144.0" layoutY="68.0" text="Faixa etária" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="394.0" layoutY="68.0" text="Nível de ensino" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Button layoutX="536.0" layoutY="86.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #f58220;" text="Filtrar" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <TableView fx:id="listagemVisitantes" layoutX="144.0" layoutY="123.0" prefHeight="305.0" prefWidth="543.0">
+               <columns>
+                  <TableColumn fx:id="colNome" prefWidth="169.6000518798828" text="Nome" />
+                  <TableColumn fx:id="colGenero" minWidth="0.0" prefWidth="52.79998779296875" text="Gênero" />
+                  <TableColumn fx:id="colIdade" prefWidth="56.0" text="Idade" />
+                  <TableColumn fx:id="colCurso" prefWidth="156.0" text="Curso" />
+                  <TableColumn fx:id="colAcoes" prefWidth="108.79998779296875" text="Ações" />
+               </columns>
+            </TableView>
+            <ComboBox layoutX="394.0" layoutY="86.0" prefHeight="26.0" prefWidth="117.0" />
+            <Button layoutX="616.0" layoutY="86.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="70.0" text="Limpar">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button layoutX="488.0" layoutY="30.0" mnemonicParsing="false" onAction="#onRefreshButtonClicked" prefHeight="26.0" prefWidth="31.0" style="-fx-background-color: #ffe9e9;">
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/refresh-button.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <ComboBox layoutX="143.0" layoutY="86.0" prefHeight="26.0" prefWidth="117.0" />
+            <Label layoutX="268.0" layoutY="68.0" text="Curso" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <ComboBox layoutX="268.0" layoutY="86.0" prefHeight="26.0" prefWidth="117.0" />
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>
