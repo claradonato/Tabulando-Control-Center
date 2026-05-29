@@ -13,10 +13,17 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class HorariosController implements Initializable {
+    @FXML
+    private TextField filtrarId;
+
+    @FXML
+    private Label avisoFiltro;
+
     @FXML
     private TableView<Horario> listagemHorarios;
 
@@ -112,6 +119,35 @@ public class HorariosController implements Initializable {
 
     @FXML
     protected void onRefreshButtonClicked(){
+        carregarDados();
+    }
+
+    @FXML
+    protected void onFiltrarButtonClicked(){
+        if(filtrarId.getText() == null || filtrarId.getText().trim().isEmpty()){
+            avisoFiltro.setText("Sem filtro.");
+        }else{
+            Integer id = Integer.parseInt(filtrarId.getText());
+
+            Horario horario = DAOFactory.createHorarioDAO().procurarPorId(id);
+            if(horario != null){
+                ObservableList<Horario> obsHorarios = FXCollections.observableArrayList();
+                obsHorarios.add(horario);
+                listagemHorarios.setItems(obsHorarios);
+                avisoFiltro.setText("");
+            } else {
+                avisoFiltro.setText("Horário não encontrado.");
+                listagemHorarios.setItems(
+                        FXCollections.observableArrayList()
+                );
+            }
+        }
+    }
+
+    @FXML
+    protected void onLimparFiltroClicked(){
+        filtrarId.setText(null);
+        avisoFiltro.setText(null);
         carregarDados();
     }
 }

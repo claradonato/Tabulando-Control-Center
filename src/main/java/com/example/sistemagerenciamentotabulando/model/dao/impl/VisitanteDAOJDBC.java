@@ -79,6 +79,21 @@ public class VisitanteDAOJDBC implements VisitanteDAO {
 
     @Override
     public Visitante procurarPorMatricula(Integer matricula) {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try{
+            st = conn.prepareStatement("select * from visitante where matricula = ?");
+            st.setInt(1, matricula);
+            rs = st.executeQuery();
+
+            if(rs.next()){
+                Visitante v = new Visitante(rs.getInt("matricula"), rs.getString("nome"), rs.getInt("idade"), rs.getString("genero"), rs.getString("nivel_ensino"), rs.getString("curso"), rs.getString("turno"), rs.getBoolean("possuiNEE"));
+                return v;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 

@@ -46,7 +46,7 @@ public class HorarioDAOJDBC implements HorarioDAO {
     }
 
     @Override
-    public void atualizar(Horario h) {
+    public void atualizar(Horario h) { //como fazer um método atualizar q não precise settar todos os atributos?
         PreparedStatement st = null;
 
         try {

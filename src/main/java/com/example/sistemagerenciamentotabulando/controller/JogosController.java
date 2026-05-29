@@ -2,6 +2,7 @@ package com.example.sistemagerenciamentotabulando.controller;
 
 import com.example.sistemagerenciamentotabulando.Application;
 import com.example.sistemagerenciamentotabulando.model.dao.DAOFactory;
+import com.example.sistemagerenciamentotabulando.model.entities.Horario;
 import com.example.sistemagerenciamentotabulando.model.entities.Jogo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +19,12 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class JogosController implements Initializable {
+    @FXML
+    private TextField filtrarId;
+
+    @FXML
+    private Label avisoFiltro;
+
     @FXML
     private TableView<Jogo> listagemJogos;
 
@@ -95,6 +102,35 @@ public class JogosController implements Initializable {
 
     @FXML
     protected void onRefreshButtonClicked(){
+        carregarDados();
+    }
+
+    @FXML
+    protected void onFiltrarButtonClicked(){
+        if(filtrarId.getText() == null || filtrarId.getText().trim().isEmpty()){
+            avisoFiltro.setText("Sem filtro.");
+        }else{
+            Integer id = Integer.parseInt(filtrarId.getText());
+
+            Jogo jogo = DAOFactory.createJogoDAO().procurarPorId(id);
+            if(jogo != null){
+                ObservableList<Jogo> obsJogos = FXCollections.observableArrayList();
+                obsJogos.add(jogo);
+                listagemJogos.setItems(obsJogos);
+                avisoFiltro.setText("");
+            } else {
+                avisoFiltro.setText("Jogo não encontrado.");
+                listagemJogos.setItems(
+                        FXCollections.observableArrayList()
+                );
+            }
+        }
+    }
+
+    @FXML
+    protected void onLimparFiltroClicked(){
+        filtrarId.setText(null);
+        avisoFiltro.setText(null);
         carregarDados();
     }
 }

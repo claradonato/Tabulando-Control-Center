@@ -88,6 +88,21 @@ public class JogoDAOJDBC implements JogoDAO {
 
     @Override
     public Jogo procurarPorId(Integer id_jogo) {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try{
+            st = conn.prepareStatement("select * from jogo where id_jogo = ?");
+            st.setInt(1, id_jogo);
+            rs = st.executeQuery();
+
+            if(rs.next()){
+                Jogo j = new Jogo(rs.getInt("id_jogo"), rs.getString("titulo"), rs.getString("tipo"), rs.getInt("min_numero_jogadores"), rs.getInt("max_numero_jogadores"), rs.getString("descricao"), rs.getString("marca"), rs.getInt("faixaEtaria"), rs.getInt("tempo_partida"));
+                return j;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 

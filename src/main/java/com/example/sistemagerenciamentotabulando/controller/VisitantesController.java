@@ -2,6 +2,7 @@ package com.example.sistemagerenciamentotabulando.controller;
 
 import com.example.sistemagerenciamentotabulando.Application;
 import com.example.sistemagerenciamentotabulando.model.dao.DAOFactory;
+import com.example.sistemagerenciamentotabulando.model.entities.Horario;
 import com.example.sistemagerenciamentotabulando.model.entities.Jogo;
 import com.example.sistemagerenciamentotabulando.model.entities.Visitante;
 import javafx.collections.FXCollections;
@@ -19,6 +20,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class VisitantesController implements Initializable {
+    @FXML
+    private TextField filtrarMatricula;
+    @FXML
+    private Label avisoFiltro;
     @FXML
     private TableView<Visitante> listagemVisitantes;
 
@@ -97,6 +102,35 @@ public class VisitantesController implements Initializable {
 
     @FXML
     protected void onRefreshButtonClicked(){
+        carregarDados();
+    }
+
+    @FXML
+    protected void onFiltrarButtonClicked(){
+        if(filtrarMatricula.getText() == null || filtrarMatricula.getText().trim().isEmpty()){
+            avisoFiltro.setText("Sem filtro.");
+        }else{
+            Integer matricula = Integer.parseInt(filtrarMatricula.getText());
+
+            Visitante visitante = DAOFactory.createVisitanteDAO().procurarPorMatricula(matricula);
+            if(visitante != null){
+                ObservableList<Visitante> obsVisitantes = FXCollections.observableArrayList();
+                obsVisitantes.add(visitante);
+                listagemVisitantes.setItems(obsVisitantes);
+                avisoFiltro.setText("");
+            } else {
+                avisoFiltro.setText("Visitante não encontrado.");
+                listagemVisitantes.setItems(
+                        FXCollections.observableArrayList()
+                );
+            }
+        }
+    }
+
+    @FXML
+    protected void onLimparFiltroClicked(){
+        filtrarMatricula.setText(null);
+        avisoFiltro.setText(null);
         carregarDados();
     }
 }

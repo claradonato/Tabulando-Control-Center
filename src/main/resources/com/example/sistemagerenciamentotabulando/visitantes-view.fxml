@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -80,17 +81,17 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Label layoutX="144.0" layoutY="68.0" text="Faixa etária" textFill="WHITE">
+            <Label layoutX="144.0" layoutY="68.0" text="Matrícula" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="394.0" layoutY="68.0" text="Nível de ensino" textFill="WHITE">
+            <Label layoutX="404.0" layoutY="68.0" text="Nível de ensino" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Button layoutX="536.0" layoutY="86.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #f58220;" text="Filtrar" textFill="WHITE">
+            <Button layoutX="536.0" layoutY="86.0" mnemonicParsing="false" onAction="#onFiltrarButtonClicked" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #f58220;" text="Filtrar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -104,8 +105,8 @@
                   <TableColumn fx:id="colAcoes" prefWidth="108.79998779296875" text="Ações" />
                </columns>
             </TableView>
-            <ComboBox layoutX="394.0" layoutY="86.0" prefHeight="26.0" prefWidth="117.0" />
-            <Button layoutX="616.0" layoutY="86.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="70.0" text="Limpar">
+            <ComboBox layoutX="404.0" layoutY="86.0" prefHeight="26.0" prefWidth="117.0" style="-fx-background-color: #ffffff;" />
+            <Button layoutX="616.0" layoutY="86.0" mnemonicParsing="false" onAction="#onLimparFiltroClicked" prefHeight="26.0" prefWidth="70.0" text="Limpar">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -119,13 +120,14 @@
                   </ImageView>
                </graphic>
             </Button>
-            <ComboBox layoutX="143.0" layoutY="86.0" prefHeight="26.0" prefWidth="117.0" />
-            <Label layoutX="268.0" layoutY="68.0" text="Curso" textFill="WHITE">
+            <Label layoutX="278.0" layoutY="68.0" text="Curso" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <ComboBox layoutX="268.0" layoutY="86.0" prefHeight="26.0" prefWidth="117.0" />
+            <ComboBox layoutX="278.0" layoutY="86.0" prefHeight="26.0" prefWidth="117.0" style="-fx-background-color: #ffffff;" />
+            <TextField fx:id="filtrarMatricula" layoutX="143.0" layoutY="86.0" prefHeight="26.0" prefWidth="124.0" />
+            <Label fx:id="avisoFiltro" layoutX="536.0" layoutY="68.0" prefHeight="18.0" prefWidth="153.0" />
          </children>
       </AnchorPane>
    </children>
