@@ -6,9 +6,7 @@ import com.example.sistemagerenciamentotabulando.model.dao.impl.JogoDAOJDBC;
 import com.example.sistemagerenciamentotabulando.model.dao.impl.VisitanteDAOJDBC;
 
 public interface DAOFactory {
-    public static HorarioDAO createHorarioDAO(){
-        return new HorarioDAOJDBC(DB.getConnection());
-    }
+    public static HorarioDAO createHorarioDAO(){ return new HorarioDAOJDBC(DB.getConnection()); }
 
     public static JogoDAO createJogoDAO(){
         return new JogoDAOJDBC(DB.getConnection());

@@ -40,11 +40,11 @@ public class HorariosController implements Initializable {
     private TableColumn<Horario, Void> colAcoes;
 
     @FXML
-    protected void onNovoHorarioClicked(){ Application.criarTela("adicionar-horario.fxml");}
+    protected void onNovoHorarioClicked(){ Application.mudarCena("adicionar-horario.fxml");}
 
     @FXML
     protected void onDashBoardClicked(){
-        Application.criarTela("dashboard-view.fxml");
+        Application.mudarCena("dashboard-view.fxml");
     }
 
     private void configurarColunas(){
@@ -77,7 +77,7 @@ public class HorariosController implements Initializable {
 
                 btnEditar.setOnAction(event -> {
                     Horario h = getTableView().getItems().get(getIndex());
-                    FXMLLoader loader = Application.trocarTela("exibir-horario-view.fxml", Application.getStagePrincipal());
+                    FXMLLoader loader = Application.mudarCena("exibir-horario-view.fxml");
                     ExibirHorarioController controller = loader.getController();
                     controller.carregarHorario(h);
                 });

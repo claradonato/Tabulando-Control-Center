@@ -62,7 +62,7 @@ public class VisitantesController implements Initializable {
 
                 btnVer.setOnAction(event -> {
                     Visitante v = getTableView().getItems().get(getIndex());
-                    FXMLLoader loader = Application.trocarTela("exibir-visitante-view.fxml", Application.getStagePrincipal());
+                    FXMLLoader loader = Application.mudarCena("exibir-visitante-view.fxml");
                     ExibirVisitanteController controller = loader.getController();
                     controller.carregarVisitante(v);
                 });

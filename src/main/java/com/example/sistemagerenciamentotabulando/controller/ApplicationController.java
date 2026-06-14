@@ -16,7 +16,7 @@ public class ApplicationController {
     private Label usuarioOuSenhaIncorreto;
 
     @FXML
-    protected void acessoPermitido() {Application.criarTela("dashboard-view.fxml");}
+    protected void acessoPermitido() {Application.mudarCena("dashboard-view.fxml");}
 
     @FXML
     protected void onLoginClicked() {

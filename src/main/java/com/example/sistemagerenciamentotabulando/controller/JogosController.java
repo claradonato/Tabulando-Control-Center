@@ -41,7 +41,7 @@ public class JogosController implements Initializable {
 
     @FXML
     protected void onNovoJogoClicked(){
-        Application.criarTela("adicionar-jogo-view.fxml");
+        Application.abrirNovaJanela("adicionar-jogo-view.fxml");
     }
 
     private void carregarDados(){
@@ -67,7 +67,7 @@ public class JogosController implements Initializable {
 
                 btnVer.setOnAction(event -> {
                     Jogo j = getTableView().getItems().get(getIndex());
-                    FXMLLoader loader = Application.trocarTela("exibir-jogo-view.fxml", Application.getStagePrincipal());
+                    FXMLLoader loader = Application.mudarCena("exibir-jogo-view.fxml");
                     ExibirJogoController controller = loader.getController();
                     controller.carregarJogo(j);
                 });

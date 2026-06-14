@@ -6,12 +6,12 @@ import javafx.fxml.FXML;
 public class DashBoardController {
     @FXML
     protected void onHorariosClicked(){
-        Application.criarTela("horarios-view.fxml");
+        Application.mudarCena("horarios-view.fxml");
     }
 
     @FXML
-    protected void onJogosClicked(){ Application.criarTela("jogos-view.fxml"); }
+    protected void onJogosClicked(){ Application.mudarCena("jogos-view.fxml"); }
 
     @FXML
-    protected void onVisitantesClicked(){ Application.criarTela("visitantes-view.fxml");}
+    protected void onVisitantesClicked(){ Application.mudarCena("visitantes-view.fxml");}
 }

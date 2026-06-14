@@ -19,21 +19,16 @@ public class Horario {
         this.turno = turno;
         this.hora = hora;
         this.nomeMonitor = nomeMonitor;
+        this.frequencia = frequencia != null ? frequencia : new ArrayList<>();
+        this.jogosUtilizados = jogosUtilizados != null ? jogosUtilizados : new ArrayList<>();
     }
 
-    public Horario(int id_horario, String diaSemana, String turno, String hora, String nomeMonitor) {
-        this.id_horario = id_horario;
-        this.diaSemana = diaSemana;
-        this.hora = hora;
-        this.turno = turno;
-        this.nomeMonitor = nomeMonitor;
+    public Horario(Integer id_horario, String diaSemana, String turno, String hora, String nomeMonitor) {
+        this(id_horario, diaSemana, turno, hora, nomeMonitor, new ArrayList<>(), new ArrayList<>());
     }
 
     public Horario(String diaSemana, String turno, String hora, String nomeMonitor) {
-        this.diaSemana = diaSemana;
-        this.turno = turno;
-        this.hora = hora;
-        this.nomeMonitor = nomeMonitor;
+        this(null, diaSemana, turno, hora, nomeMonitor, new ArrayList<>(), new ArrayList<>());
     }
 
     public Integer getId_horario() {

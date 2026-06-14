@@ -1,15 +1,20 @@
 package com.example.sistemagerenciamentotabulando.controller;
 
 import com.example.sistemagerenciamentotabulando.Application;
+import com.example.sistemagerenciamentotabulando.model.dao.DAOFactory;
 import com.example.sistemagerenciamentotabulando.model.entities.Horario;
 import com.example.sistemagerenciamentotabulando.model.entities.Jogo;
 import com.example.sistemagerenciamentotabulando.model.entities.Visitante;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.util.List;
 
 public class ExibirHorarioController {
     private Horario horario;
@@ -32,12 +37,14 @@ public class ExibirHorarioController {
 
     @FXML
     protected void onBuscarVisitanteClicked(){
-        //implementar
+
     }
 
     @FXML
     protected void onAdicionarVisitanteClicked(){
-        //implementar
+        Application.abrirNovaJanela("adicionar-visitante-view.fxml");
+        buscarVisitante.clear();
+        carregarTabelaVisitantes();
     }
 
     @FXML
@@ -67,7 +74,10 @@ public class ExibirHorarioController {
 
     @FXML
     protected void onAdicionarJogoClicked(){
-        //implementar
+        Integer idJogo = Integer.parseInt(buscarJogo.getText());
+        DAOFactory.createHorarioDAO().adicionarJogoHorario(idJogo, horario.getId_horario());
+        buscarJogo.clear();
+        carregarTabelaJogos();
     }
 
     @FXML
@@ -86,16 +96,40 @@ public class ExibirHorarioController {
     private Label totalJogos;
 
     @FXML
+    private void carregarTabelaVisitantes(){
+        colNomeVisitante.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        colIdade.setCellValueFactory(new PropertyValueFactory<>("idade"));
+        colGenero.setCellValueFactory(new PropertyValueFactory<>("genero"));
+        colCurso.setCellValueFactory(new PropertyValueFactory<>("curso"));
+        List<Visitante> lista = DAOFactory.createHorarioDAO().buscarVisitantesHorario(horario.getId_horario());
+        visitantesHorario.setItems(FXCollections.observableArrayList(lista));
+        totalVisitantes.setText(String.valueOf(lista.size()));
+    }
+
+    @FXML
+    private void carregarTabelaJogos(){
+        colTitulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
+        colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+        colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
+        colTempoPartida.setCellValueFactory(new PropertyValueFactory<>("tempo_partida"));
+        List<Jogo> lista = DAOFactory.createHorarioDAO().buscarJogosHorario(horario.getId_horario());
+        jogosHorario.setItems(FXCollections.observableArrayList(lista));
+        totalJogos.setText(String.valueOf(lista.size()));
+    }
+
+    @FXML
     public void carregarHorario(Horario h) {
         this.horario = h;
 
         descricaoHorario.setText(h.getDiaSemana() + " - " + h.getTurno() + "(" + h.getHora() + ")");
         nomeMonitor.setText("Monitor: " + h.getNomeMonitor());
+        carregarTabelaVisitantes();
+        carregarTabelaJogos();
     }
 
     @FXML
     protected void onVoltarHorarioClicked(){
-        Application.trocarTela("horarios-view.fxml", Application.getStagePrincipal());
+        Application.mudarCena("horarios-view.fxml");
     }
 
     @FXML
