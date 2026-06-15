@@ -10,21 +10,13 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        this.stage = stage;
+        Application.stage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("application-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Sistema Tabulando");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
-    }
-
-    public static Stage getStage() {
-        return stage;
-    }
-
-    public static void setStage(Stage stage) {
-        Application.stage = stage;
     }
 
     public static FXMLLoader mudarCena(String url){

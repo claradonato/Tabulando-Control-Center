@@ -2,40 +2,35 @@ package com.example.sistemagerenciamentotabulando.controller;
 
 import com.example.sistemagerenciamentotabulando.Application;
 import com.example.sistemagerenciamentotabulando.model.dao.DAOFactory;
-import com.example.sistemagerenciamentotabulando.model.entities.Horario;
+import com.example.sistemagerenciamentotabulando.model.entities.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import java.net.URL;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class HorariosController implements Initializable {
+    private Horario horarioSelecionado;
+
     @FXML
     private TextField filtrarId;
-
     @FXML
     private Label avisoFiltro;
-
     @FXML
     private TableView<Horario> listagemHorarios;
-
     @FXML
     private TableColumn<Horario, String> colDiaSemana;
-
     @FXML
     private TableColumn<Horario, String> colTurno;
-
     @FXML
     private TableColumn<Horario, String> colHora;
-
     @FXML
     private TableColumn<Horario, Void> colAcoes;
 
@@ -76,10 +71,9 @@ public class HorariosController implements Initializable {
                 btnExcluir.setStyle("-fx-background-color: #d9534f; -fx-text-fill: white;");
 
                 btnEditar.setOnAction(event -> {
-                    Horario h = getTableView().getItems().get(getIndex());
-                    FXMLLoader loader = Application.mudarCena("exibir-horario-view.fxml");
-                    ExibirHorarioController controller = loader.getController();
-                    controller.carregarHorario(h);
+                    horarioSelecionado = getTableView().getItems().get(getIndex());
+                    Application.mudarCena("exibir-horario-view.fxml");
+                    preencherCamposEdicao(horarioSelecionado);
                 });
 
                 btnExcluir.setOnAction(event -> {
@@ -111,10 +105,12 @@ public class HorariosController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        configurarColunas();
-        configurarColunaHora();
-        configurarColunaAcoes();
-        carregarDados();
+        if(listagemHorarios != null){
+            configurarColunas();
+            configurarColunaHora();
+            configurarColunaAcoes();
+            carregarDados();
+        }
     }
 
     @FXML
@@ -149,5 +145,161 @@ public class HorariosController implements Initializable {
         filtrarId.setText(null);
         avisoFiltro.setText(null);
         carregarDados();
+    }
+
+    //Atributos e métodos de ADICIONAR HORÁRIO ---------------------------------------------
+    @FXML
+    private TextField diaSemana;
+    @FXML
+    private TextField turno;
+    @FXML
+    private TextField hora;
+    @FXML
+    private TextField nomeMonitor;
+    @FXML
+    private Button btnFecharAdicionar;
+    @FXML
+    protected void fecharTelaAdicionar() {
+        Stage stage = (Stage) btnFecharAdicionar.getScene().getWindow();
+        stage.close();
+    }
+    @FXML
+    protected void onAdcHorarioClicked(){
+        Horario h = new Horario(diaSemana.getText(), turno.getText(), hora.getText(), nomeMonitor.getText());
+        DAOFactory.createHorarioDAO().inserir(h);
+        diaSemana.setText(" ");
+        turno.setText(" ");
+        hora.setText(" ");
+        nomeMonitor.setText(" ");
+        carregarDados();
+    }
+
+    //Atributos e métodos de EDITAR HORARIO --------------------------------------------------------
+    @FXML
+    private Button btnFecharEditar;
+
+    @FXML
+    protected void fecharTelaEditar() {
+        Stage stage = (Stage) btnFecharEditar.getScene().getWindow();
+        stage.close();
+    }
+    // fazer "horarioSelecionado = h;" antes de abrir a tela
+
+    @FXML
+    protected void onSalvarClicked(){
+        horarioSelecionado.setDiaSemana(diaSemana.getText());
+        horarioSelecionado.setTurno(turno.getText());
+        horarioSelecionado.setHora(hora.getText());
+        horarioSelecionado.setNomeMonitor(nomeMonitor.getText());
+        DAOFactory.createHorarioDAO().atualizar(horarioSelecionado);
+
+        fecharTelaEditar();
+    }
+
+    //Atributos e métodos de EXIBIR HORÁRIO --------------------------------------------------------
+    @FXML
+    private Label descricaoHorario;
+    @FXML
+    private Label descricaoNomeMonitor;
+
+    private void preencherCamposEdicao(Horario h){
+        diaSemana.setText(h.getDiaSemana());
+        turno.setText(h.getTurno());
+        hora.setText(h.getHora());
+        nomeMonitor.setText(h.getNomeMonitor());
+    }
+
+    @FXML
+    protected void onAtualizarHorarioClicked(){
+        if(horarioSelecionado == null){
+            return;
+        }
+        Application.abrirNovaJanela("editar-horario-view.fxml");
+        preencherCamposEdicao(horarioSelecionado);
+    }
+
+    // AnchorPane esquerdo com dados dos visitantes
+    @FXML
+    private TextField buscarVisitante;
+
+    @FXML
+    protected void onBuscarVisitanteClicked(){
+
+    }
+
+    @FXML
+    protected void onVoltarHorarioClicked(){
+        Application.mudarCena("horarios-view.fxml");
+    }
+
+    @FXML
+    protected void onAdicionarVisitanteClicked(){
+        Application.abrirNovaJanela("adicionar-visitante-view.fxml");
+        buscarVisitante.clear();
+        carregarTabelaVisitantes();
+    }
+
+    @FXML
+    private TableView<Visitante> visitantesHorario;
+    @FXML
+    private TableColumn<Visitante, String> colNomeVisitante;
+    @FXML
+    private TableColumn<Visitante, Integer> colIdade;
+    @FXML
+    private TableColumn<Visitante, String> colGenero;
+    @FXML
+    private TableColumn<Visitante, String> colCurso;
+
+    @FXML
+    private Label totalVisitantes;
+
+    //AnchorPane direito com dados dos jogos
+
+    @FXML
+    private TextField buscarJogo;
+    @FXML
+    protected void onBuscarJogoClicked(){
+        //implementar
+    }
+    @FXML
+    protected void onAdicionarJogoClicked(){
+        Integer idJogo = Integer.parseInt(buscarJogo.getText());
+        DAOFactory.createHorarioDAO().adicionarJogoHorario(idJogo, horarioSelecionado.getId_horario());
+        buscarJogo.clear();
+        carregarTabelaJogos();
+    }
+    @FXML
+    private TableView<Jogo> jogosHorario;
+    @FXML
+    private TableColumn<Jogo, String> colTitulo;
+    @FXML
+    private TableColumn<Jogo, String> colTipo;
+    @FXML
+    private TableColumn<Jogo, String> colMarca;
+    @FXML
+    private TableColumn<Jogo, Integer> colTempoPartida;
+    @FXML
+    private Label totalJogos;
+
+    @FXML
+    private void carregarTabelaVisitantes(){
+        colNomeVisitante.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        colIdade.setCellValueFactory(new PropertyValueFactory<>("idade"));
+        colGenero.setCellValueFactory(new PropertyValueFactory<>("genero"));
+        colCurso.setCellValueFactory(new PropertyValueFactory<>("curso"));
+        List<Visitante> lista = DAOFactory.createHorarioDAO().buscarVisitantesHorario(horarioSelecionado.getId_horario());
+        visitantesHorario.setItems(FXCollections.observableArrayList(lista));
+        totalVisitantes.setText(String.valueOf(lista.size()));
+    }
+
+    @FXML
+    private void carregarTabelaJogos(){
+        colTitulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
+        colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+        colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
+        colTempoPartida.setCellValueFactory(new PropertyValueFactory<>("tempo_partida"));
+        List<Jogo> lista = DAOFactory.createHorarioDAO().buscarJogosHorario(horarioSelecionado.getId_horario());
+        jogosHorario.setItems(FXCollections.observableArrayList(lista));
+        totalJogos.setText(String.valueOf(lista.size()));
     }
 }

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f2f0ef;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sistemagerenciamentotabulando.controller.ExibirHorarioController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f2f0ef;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sistemagerenciamentotabulando.controller.HorariosController">
    <children>
       <SplitPane dividerPositions="0.316577896138482" layoutX="-1.0" layoutY="70.0" prefHeight="330.0" prefWidth="602.0">
         <items>
@@ -82,7 +82,7 @@
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label fx:id="nomeMonitor" layoutX="135.0" layoutY="47.0" prefHeight="20.0" prefWidth="188.0">
+      <Label fx:id="descricaoNomeMonitor" layoutX="135.0" layoutY="47.0" prefHeight="20.0" prefWidth="188.0">
          <font>
             <Font size="14.0" />
          </font></Label>
