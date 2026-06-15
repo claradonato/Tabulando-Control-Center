@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ede9e9;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sistemagerenciamentotabulando.controller.ApplicationController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="433.0" prefWidth="693.0" style="-fx-background-color: #ede9e9;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sistemagerenciamentotabulando.controller.ApplicationController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="254.0" layoutX="165.0" layoutY="117.0" opacity="0.19" stroke="#b1afaf" strokeType="INSIDE" width="278.0" />
       <TextField fx:id="loginUsuario" layoutX="184.0" layoutY="217.0" prefHeight="26.0" prefWidth="238.0" promptText="Digite o usuário">
