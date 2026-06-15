@@ -17,8 +17,20 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class HorariosController implements Initializable {
-    private Horario horarioSelecionado;
+    private static Horario horarioSelecionado;
 
+    // TELA DE HORARIOS-VIEW.FXML ---------------------------------------------------------------------------
+    //Métodos do Menu
+    @FXML
+    protected void onDashBoardClicked(){
+        Application.mudarCena("dashboard-view.fxml");
+    }
+    @FXML
+    protected void onJogosClicked(){ Application.mudarCena("jogos-view.fxml");}
+    @FXML
+    protected void onVisitantesClicked() { Application.mudarCena("visitantes-view.fxml");}
+
+    //Atributos do filtro, tabela e botões
     @FXML
     private TextField filtrarId;
     @FXML
@@ -36,11 +48,6 @@ public class HorariosController implements Initializable {
 
     @FXML
     protected void onNovoHorarioClicked(){ Application.mudarCena("adicionar-horario.fxml");}
-
-    @FXML
-    protected void onDashBoardClicked(){
-        Application.mudarCena("dashboard-view.fxml");
-    }
 
     private void configurarColunas(){
         colDiaSemana.setCellValueFactory(new PropertyValueFactory<>("diaSemana"));
@@ -73,7 +80,6 @@ public class HorariosController implements Initializable {
                 btnEditar.setOnAction(event -> {
                     horarioSelecionado = getTableView().getItems().get(getIndex());
                     Application.mudarCena("exibir-horario-view.fxml");
-                    preencherCamposEdicao(horarioSelecionado);
                 });
 
                 btnExcluir.setOnAction(event -> {
@@ -105,11 +111,20 @@ public class HorariosController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if(listagemHorarios != null){
+        // Tela de listagem
+        if (listagemHorarios != null) {
             configurarColunas();
             configurarColunaHora();
             configurarColunaAcoes();
             carregarDados();
+        }
+
+        // Tela de exibição
+        if(descricaoHorario != null && horarioSelecionado != null){
+            descricaoHorario.setText(horarioSelecionado.getDiaSemana() + " - " + horarioSelecionado.getHora());
+            descricaoNomeMonitor.setText(horarioSelecionado.getNomeMonitor());
+            carregarTabelaVisitantes();
+            carregarTabelaJogos();
         }
     }
 
@@ -160,9 +175,10 @@ public class HorariosController implements Initializable {
     private Button btnFecharAdicionar;
     @FXML
     protected void fecharTelaAdicionar() {
-        Stage stage = (Stage) btnFecharAdicionar.getScene().getWindow();
-        stage.close();
+        Application.mudarCena("horarios-view.fxml");
+        carregarDados();
     }
+
     @FXML
     protected void onAdcHorarioClicked(){
         Horario h = new Horario(diaSemana.getText(), turno.getText(), hora.getText(), nomeMonitor.getText());
@@ -171,7 +187,6 @@ public class HorariosController implements Initializable {
         turno.setText(" ");
         hora.setText(" ");
         nomeMonitor.setText(" ");
-        carregarDados();
     }
 
     //Atributos e métodos de EDITAR HORARIO --------------------------------------------------------

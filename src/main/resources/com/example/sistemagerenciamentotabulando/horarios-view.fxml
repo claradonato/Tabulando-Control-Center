@@ -52,7 +52,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="46.0" prefWidth="142.0" style="-fx-background-color: #ffffff;" text="Jogos" GridPane.rowIndex="3">
+                        <Button mnemonicParsing="false" onAction="#onJogosClicked" prefHeight="46.0" prefWidth="142.0" style="-fx-background-color: #ffffff;" text="Jogos" GridPane.rowIndex="3">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
@@ -62,7 +62,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="46.0" prefWidth="130.0" style="-fx-background-color: #ffffff;" text="Visitantes" GridPane.rowIndex="4">
+                        <Button mnemonicParsing="false" onAction="#onVisitantesClicked" prefHeight="46.0" prefWidth="130.0" style="-fx-background-color: #ffffff;" text="Visitantes" GridPane.rowIndex="4">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>

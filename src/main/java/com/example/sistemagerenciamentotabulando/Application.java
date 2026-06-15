@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Application extends javafx.application.Application {
-    private static Stage stage; //transformar isso apenas em um stage única
+    private static Stage stage;
 
     @Override
     public void start(Stage stage) throws IOException {
