@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="433.0" prefWidth="693.0" style="-fx-background-color: #f2f0ef;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sistemagerenciamentotabulando.controller.ExibirVisitanteController">
+<AnchorPane prefHeight="433.0" prefWidth="693.0" style="-fx-background-color: #f2f0ef;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sistemagerenciamentotabulando.controller.VisitantesController">
    <children>
       <Label layoutX="75.0" layoutY="21.0" text="Cadastro do visitante">
          <font>
@@ -24,7 +24,7 @@
          <image>
             <Image url="@images/Tabulando.png" />
          </image></ImageView>
-      <Button layoutX="522.0" layoutY="382.0" mnemonicParsing="false" onAction="#onRefreshButtonClicked" prefHeight="26.0" prefWidth="31.0" style="-fx-background-color: #ffe9e9;">
+      <Button layoutX="522.0" layoutY="382.0" mnemonicParsing="false" onAction="#onRefreshButtonExibirClicked" prefHeight="26.0" prefWidth="31.0" style="-fx-background-color: #ffe9e9;">
          <graphic>
             <ImageView fitHeight="18.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                <image>

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="519.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sistemagerenciamentotabulando.controller.EditarCadastroController">
+<AnchorPane prefHeight="400.0" prefWidth="519.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sistemagerenciamentotabulando.controller.VisitantesController">
    <children>
       <Label layoutX="68.0" layoutY="23.0" text="Editar Visitante">
          <font>
@@ -33,44 +33,44 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <TextField fx:id="genero" layoutX="29.0" layoutY="278.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o gênero" />
-      <Button fx:id="btnFechar" layoutX="29.0" layoutY="328.0" mnemonicParsing="false" onAction="#fecharTela" prefHeight="34.0" prefWidth="78.0" style="-fx-background-color: #666666;" text="Cancelar" textFill="WHITE">
+      <TextField fx:id="generoEditar" layoutX="29.0" layoutY="278.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o gênero" />
+      <Button layoutX="29.0" layoutY="328.0" mnemonicParsing="false" onAction="#fecharTelaEditar" prefHeight="34.0" prefWidth="78.0" style="-fx-background-color: #666666;" text="Cancelar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="416.0" layoutY="328.0" mnemonicParsing="false" onAction="#onSalvarVisitanteClicked" prefHeight="34.0" prefWidth="78.0" style="-fx-background-color: #f58220;" text="Salvar" textFill="WHITE">
+      <Button layoutX="416.0" layoutY="328.0" mnemonicParsing="false" onAction="#onSalvarVisitanteEditarClicked" prefHeight="34.0" prefWidth="78.0" style="-fx-background-color: #f58220;" text="Salvar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
       <Button layoutX="12.0" layoutY="23.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="34.0" text="&lt;-" />
-      <TextField fx:id="idade" layoutX="29.0" layoutY="218.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite a idade" />
-      <TextField fx:id="matricula" layoutX="29.0" layoutY="157.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite a matrícula" />
-      <TextField fx:id="nome" layoutX="29.0" layoutY="94.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o nome" />
+      <TextField fx:id="idadeEditar" layoutX="29.0" layoutY="218.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite a idade" />
+      <TextField fx:id="matriculaEditar" layoutX="29.0" layoutY="157.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite a matrícula" />
+      <TextField fx:id="nomeEditar" layoutX="29.0" layoutY="94.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o nome" />
       <Label layoutX="265.0" layoutY="76.0" text="Nível de ensino">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <TextField fx:id="nivel_ensino" layoutX="263.0" layoutY="94.0" prefHeight="18.0" prefWidth="192.0" promptText="Digite o nível de ensino" />
+      <TextField fx:id="nivelEnsinoEditar" layoutX="263.0" layoutY="94.0" prefHeight="18.0" prefWidth="192.0" promptText="Digite o nível de ensino" />
       <Label layoutX="267.0" layoutY="139.0" text="Curso">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <TextField fx:id="curso" layoutX="263.0" layoutY="157.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o curso" />
+      <TextField fx:id="cursoEditar" layoutX="263.0" layoutY="157.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o curso" />
       <Label layoutX="267.0" layoutY="200.0" text="Turno">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <TextField fx:id="turno" layoutX="263.0" layoutY="218.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o turno" />
+      <TextField fx:id="turnoEditar" layoutX="263.0" layoutY="218.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o turno" />
       <Label layoutX="265.0" layoutY="260.0" text="Possui Necessidades Educativas Específicas">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <TextField fx:id="possuiNEE" layoutX="263.0" layoutY="278.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite sim ou não para NEE" />
+      <TextField fx:id="possuiNEEEditar" layoutX="263.0" layoutY="278.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite sim ou não para NEE" />
    </children>
 </AnchorPane>
