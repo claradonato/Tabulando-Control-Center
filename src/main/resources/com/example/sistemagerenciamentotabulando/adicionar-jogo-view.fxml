@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="446.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sistemagerenciamentotabulando.controller.AdicionarJogoController">
+<AnchorPane prefHeight="400.0" prefWidth="446.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sistemagerenciamentotabulando.controller.JogosController">
    <children>
       <Label layoutX="68.0" layoutY="23.0" text="Adicionar Jogo">
          <font>
@@ -46,31 +46,31 @@
       </Button>
       <Button layoutX="12.0" layoutY="23.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="34.0" text="&lt;-" />
       <TextField fx:id="minJogadores" layoutX="29.0" layoutY="218.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o número mínimo de jog" />
-      <TextField fx:id="tipo" layoutX="29.0" layoutY="157.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o tipo" />
-      <TextField fx:id="titulo" layoutX="29.0" layoutY="94.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o título do jogo" />
+      <TextField fx:id="tipoAdicionar" layoutX="29.0" layoutY="157.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o tipo" />
+      <TextField fx:id="tituloAdicionar" layoutX="29.0" layoutY="94.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o título do jogo" />
       <Label layoutX="238.0" layoutY="76.0" text="Descrição">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <TextField fx:id="descricao" layoutX="238.0" layoutY="94.0" prefHeight="18.0" prefWidth="192.0" promptText="Digite a descrição do jogo" />
+      <TextField fx:id="descricaoAdicionar" layoutX="238.0" layoutY="94.0" prefHeight="18.0" prefWidth="192.0" promptText="Digite a descrição do jogo" />
       <Label layoutX="238.0" layoutY="139.0" text="Marca">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <TextField fx:id="marca" layoutX="238.0" layoutY="157.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite a marca" />
+      <TextField fx:id="marcaAdicionar" layoutX="238.0" layoutY="157.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite a marca" />
       <Label layoutX="238.0" layoutY="200.0" text="Faixa Etária">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <TextField fx:id="faixaEtaria" layoutX="238.0" layoutY="218.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite a faixa etária" />
+      <TextField fx:id="faixaEtariaAdicionar" layoutX="238.0" layoutY="218.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite a faixa etária" />
       <Label layoutX="241.0" layoutY="260.0" text="Tempo de partida">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <TextField fx:id="tempoPartida" layoutX="238.0" layoutY="278.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o tempo de partida" />
+      <TextField fx:id="tempoPartidaAdicionar" layoutX="238.0" layoutY="278.0" prefHeight="26.0" prefWidth="192.0" promptText="Digite o tempo de partida" />
    </children>
 </AnchorPane>
