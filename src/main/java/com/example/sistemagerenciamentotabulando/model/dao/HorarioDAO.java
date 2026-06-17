@@ -12,6 +12,11 @@ public interface HorarioDAO {
     void atualizar(Horario h);
     List<Horario> listarTodos();
     List<Horario> buscarPorSemana(LocalDate dataReferencia);
+    List<String> listarMonitores();
+
+    List<Horario> buscarPorMonitor(String monitor);
+
+    List<Horario> buscarPorSemanaEMonitor(LocalDate data, String monitor);
 
     void adicionarVisitanteHorario(Integer matricula, Integer id_horario);
     void adicionarJogoHorario(Integer idJogo, Integer idHorario);

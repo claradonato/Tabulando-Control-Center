@@ -76,12 +76,12 @@
                   <Font name="System Bold" size="25.0" />
                </font>
             </Label>
-            <TableView fx:id="listagemHorarios" layoutX="139.0" layoutY="121.0" prefHeight="298.0" prefWidth="543.0" style="-fx-background-color: #ffffff;">
+            <TableView fx:id="listagemHorarios" layoutX="139.0" layoutY="121.0" prefHeight="298.0" prefWidth="538.0" style="-fx-background-color: #ffffff;">
               <columns>
                 <TableColumn fx:id="colData" prefWidth="78.39996337890625" text="Data" />
                 <TableColumn fx:id="colHorario" prefWidth="198.4000244140625" text="Horário" />
                   <TableColumn fx:id="colMonitor" prefWidth="152.80007934570312" text="Monitor" />
-                  <TableColumn fx:id="colOpcoes" minWidth="0.0" prefWidth="120.0" text="Opções" />
+                  <TableColumn fx:id="colOpcoes" minWidth="0.0" prefWidth="111.20000000000005" text="Opções" />
               </columns>
             </TableView>
             <Button layoutX="538.0" layoutY="28.0" mnemonicParsing="false" onAction="#onNovoHorarioClicked" prefHeight="31.0" prefWidth="141.0" style="-fx-background-color: #f58220;" text="+ Novo Horário" textFill="WHITE">
@@ -98,7 +98,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <ComboBox layoutX="297.0" layoutY="86.0" prefHeight="26.0" prefWidth="130.0" style="-fx-background-color: #ffffff;" />
+            <ComboBox fx:id="filtroMonitor" layoutX="297.0" layoutY="86.0" prefHeight="26.0" prefWidth="130.0" style="-fx-background-color: #ffffff;" />
             <Label layoutX="139.0" layoutY="68.0" text="Data" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />

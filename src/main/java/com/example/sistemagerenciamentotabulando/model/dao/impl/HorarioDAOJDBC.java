@@ -5,7 +5,6 @@ import com.example.sistemagerenciamentotabulando.model.dao.HorarioDAO;
 import com.example.sistemagerenciamentotabulando.model.entities.Horario;
 import com.example.sistemagerenciamentotabulando.model.entities.Jogo;
 import com.example.sistemagerenciamentotabulando.model.entities.Visitante;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -81,7 +80,6 @@ public class HorarioDAOJDBC implements HorarioDAO {
             rs = st.executeQuery();
             while (rs.next()) {
                 Horario h = new Horario(rs.getInt("id_horario"), rs.getDate("data_horario").toLocalDate(), rs.getString("turno"), rs.getString("hora"), rs.getString("nome_monitor"), rs.getString("status_horario"));
-                System.out.println("Status horario: " + rs.getString("status_horario"));
                 horarios.add(h);
             }
         } catch (SQLException e) {
@@ -113,6 +111,83 @@ public class HorarioDAOJDBC implements HorarioDAO {
             throw new RuntimeException(e);
         }
         return lista;
+    }
+
+    @Override
+    public List<String> listarMonitores() {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        List<String> lista = new ArrayList<>();
+
+        try {
+            st = conn.prepareStatement("select distinct nome_monitor from horario order by nome_monitor");
+            rs = st.executeQuery();
+            while(rs.next()){
+                lista.add(rs.getString("nome_monitor"));
+            }
+        } catch (SQLException e){
+            throw new RuntimeException(e);
+        } finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+        }
+        return lista;
+    }
+
+    @Override
+    public List<Horario> buscarPorMonitor(String monitor) {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        List<Horario> lista = new ArrayList<>();
+
+        try {
+            st = conn.prepareStatement("select * from horario where nome_monitor = ? order by data_horario");
+            st.setString(1, monitor);
+            rs = st.executeQuery();
+
+            while(rs.next()){
+                Horario h = new Horario(rs.getInt("id_horario"), rs.getDate("data_horario").toLocalDate(), rs.getString("turno"), rs.getString("hora"), rs.getString("nome_monitor"), rs.getString("status_horario"));
+                lista.add(h);
+            }
+
+            return lista;
+
+        } catch(SQLException e){
+            throw new RuntimeException(e);
+        } finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+        }
+    }
+
+    @Override
+    public List<Horario> buscarPorSemanaEMonitor(LocalDate data, String monitor){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        List<Horario> lista = new ArrayList<>();
+        LocalDate inicioSemana = data.with(DayOfWeek.MONDAY);
+        LocalDate fimSemana = data.with(DayOfWeek.FRIDAY);
+
+        try {
+            st = conn.prepareStatement("select * from horario where data_horario between ? and ? and nome_monitor = ? ORDER BY data_horario;");
+            st.setDate(1, java.sql.Date.valueOf(inicioSemana));
+            st.setDate(2, java.sql.Date.valueOf(fimSemana));
+            st.setString(3, monitor);
+            rs = st.executeQuery();
+
+            while(rs.next()){
+                Horario h = new Horario(rs.getInt("id_horario"), rs.getDate("data_horario").toLocalDate(), rs.getString("turno"), rs.getString("hora"), rs.getString("nome_monitor"), rs.getString("status_horario"));
+                lista.add(h);
+            }
+
+            return lista;
+
+        } catch(SQLException e){
+            throw new RuntimeException(e);
+        } finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+        }
     }
 
     // Métodos relacionados com outras tabelas do banco -------------------------------------------------------------

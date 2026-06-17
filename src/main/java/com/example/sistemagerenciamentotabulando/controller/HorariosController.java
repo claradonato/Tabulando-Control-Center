@@ -36,6 +36,8 @@ public class HorariosController implements Initializable {
     @FXML
     private DatePicker filtroData;
     @FXML
+    private ComboBox<String> filtroMonitor;
+    @FXML
     private Label avisoFiltro;
     @FXML
     private TableView<Horario> listagemHorarios;
@@ -108,16 +110,41 @@ public class HorariosController implements Initializable {
         });
     }
 
+    private void carregarMonitores(){
+        List<String> monitores = DAOFactory.createHorarioDAO().listarMonitores();
+        filtroMonitor.setItems(FXCollections.observableArrayList(monitores));
+    }
+
     @FXML
     protected void onFiltrarButtonClicked(){
         LocalDate dataSelecionada = filtroData.getValue();
-        if(dataSelecionada == null){
-            avisoFiltro.setText("Selecione uma data.");
+        String monitor = filtroMonitor.getSelectionModel().getSelectedItem();
+
+        List<Horario> resultado;
+
+        // Nenhum filtro
+        if(dataSelecionada == null && monitor == null){
+            avisoFiltro.setText("Sem filtros.");
             return;
         }
-        List<Horario> horariosSemana = DAOFactory.createHorarioDAO().buscarPorSemana(dataSelecionada);
-        listagemHorarios.setItems(FXCollections.observableArrayList(horariosSemana));
-        avisoFiltro.setText(horariosSemana.isEmpty() ? "Nenhum horário encontrado." : "");
+
+        // Apenas data
+        else if(dataSelecionada != null && monitor == null){
+            resultado = DAOFactory.createHorarioDAO().buscarPorSemana(dataSelecionada);
+        }
+
+        // Apenas monitor
+        else if(dataSelecionada == null){
+            resultado = DAOFactory.createHorarioDAO().buscarPorMonitor(monitor);
+        }
+
+        // Data e monitor
+        else{
+            resultado = DAOFactory.createHorarioDAO().buscarPorSemanaEMonitor(dataSelecionada, monitor);
+        }
+
+        listagemHorarios.setItems(FXCollections.observableArrayList(resultado));
+        avisoFiltro.setText(resultado.isEmpty() ? "Nenhum horário encontrado." : "");
     }
 
     private void carregarDados(){
@@ -134,6 +161,7 @@ public class HorariosController implements Initializable {
             configurarColunaHorario();
             configurarColunaOpcoes();
             carregarDados();
+            carregarMonitores();
         }
 
         // Tela de exibição com visitantes
@@ -165,7 +193,8 @@ public class HorariosController implements Initializable {
 
     @FXML
     protected void onLimparFiltroClicked(){
-        filtroData.setTooltip(null);
+        filtroData.setValue(null);
+        filtroMonitor.setValue(null);
         avisoFiltro.setText(null);
         carregarDados();
     }
