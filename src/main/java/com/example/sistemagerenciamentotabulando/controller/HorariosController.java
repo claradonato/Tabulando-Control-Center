@@ -51,7 +51,7 @@ public class HorariosController implements Initializable {
     private TableColumn<Horario, Void> colOpcoes;
 
     @FXML
-    protected void onNovoHorarioClicked(){ Application.mudarCena("adicionar-horario.fxml");}
+    protected void onNovoHorarioClicked(){ Application.abrirModal("adicionar-horario.fxml");}
 
     // configura colunas simples (Data e Monitor)
     private void configurarColunas(){
@@ -87,7 +87,7 @@ public class HorariosController implements Initializable {
 
                 btnEditar.setOnAction(event -> {
                     horarioSelecionado = getTableView().getItems().get(getIndex());
-                    Application.mudarCena("editar-horario-view.fxml");
+                    Application.abrirModal("editar-horario-view.fxml");
                 });
 
                 btnVer.setOnAction(event -> {
@@ -240,6 +240,24 @@ public class HorariosController implements Initializable {
     private TextField nomeMonitorEditar;
     @FXML
     private TextField statusHorarioEditar;
+
+    @FXML
+    private Button btnSalvarFechar;
+
+    @FXML
+    private Button btnHabilitarEdicao;
+
+    @FXML
+    private void onHabilitarEdicaoClicked(){
+        dataHorarioEditar.setDisable(false);
+        turnoEditar.setDisable(false);
+        horaEditar.setDisable(false);
+        nomeMonitorEditar.setDisable(false);
+        statusHorarioEditar.setDisable(false);
+        btnSalvarFechar.setDisable(false);
+        btnHabilitarEdicao.setText("Editando...");
+        btnHabilitarEdicao.setDisable(true);
+    }
 
     @FXML
     protected void fecharTelaEditar() {

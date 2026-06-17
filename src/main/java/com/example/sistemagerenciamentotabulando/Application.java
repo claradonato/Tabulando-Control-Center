@@ -1,7 +1,9 @@
 package com.example.sistemagerenciamentotabulando;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -43,6 +45,21 @@ public class Application extends javafx.application.Application {
             throw new RuntimeException(e);
         }
         return loader;
+    }
+
+    public static void abrirModal(String fxml) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Application.class.getResource(fxml));
+            Parent root = loader.load();
+            Stage modal = new Stage();
+            modal.initModality(Modality.APPLICATION_MODAL);
+            modal.setScene(new Scene(root));
+            modal.setResizable(false);
+            modal.centerOnScreen();
+            modal.showAndWait();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public static void main(String[] args) {
