@@ -169,7 +169,7 @@ public class HorarioDAOJDBC implements HorarioDAO {
         LocalDate fimSemana = data.with(DayOfWeek.FRIDAY);
 
         try {
-            st = conn.prepareStatement("select * from horario where data_horario between ? and ? and nome_monitor = ? ORDER BY data_horario;");
+            st = conn.prepareStatement("select * from horario where data_horario between ? and ? and nome_monitor = ? ORDER BY data_horario order by data_horario;");
             st.setDate(1, java.sql.Date.valueOf(inicioSemana));
             st.setDate(2, java.sql.Date.valueOf(fimSemana));
             st.setString(3, monitor);
@@ -188,6 +188,92 @@ public class HorarioDAOJDBC implements HorarioDAO {
             DB.closeStatement(st);
             DB.closeResultSet(rs);
         }
+    }
+
+    @Override
+    public List<Horario> buscarPorStatus(String status) {
+        List<Horario> lista = new ArrayList<>();
+        try {
+            PreparedStatement st = conn.prepareStatement("select * from horario where status_horario = ? order by data_horario");
+            st.setString(1, status);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                lista.add(new Horario(rs.getInt("id_horario"), rs.getDate("data_horario").toLocalDate(), rs.getString("turno"), rs.getString("hora"), rs.getString("nome_monitor"), rs.getString("status_horario")));
+            }
+        } catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+
+        return lista;
+    }
+
+    @Override
+    public List<Horario> buscarPorSemanaEStatus(LocalDate data, String status) {
+        List<Horario> lista = new ArrayList<>();
+        LocalDate inicioSemana = data.with(DayOfWeek.MONDAY);
+        LocalDate fimSemana = data.with(DayOfWeek.FRIDAY);
+
+        try {
+            PreparedStatement st = conn.prepareStatement("select * from horario where status_horario = ? and data_horario between ? and ? order by data_horario");
+            st.setString(1, status);
+            st.setDate(2, java.sql.Date.valueOf(inicioSemana));
+            st.setDate(3, java.sql.Date.valueOf(fimSemana));
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                lista.add(new Horario(rs.getInt("id_horario"), rs.getDate("data_horario").toLocalDate(), rs.getString("turno"), rs.getString("hora"), rs.getString("nome_monitor"), rs.getString("status_horario")));
+            }
+        } catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+
+        return lista;
+    }
+
+    @Override
+    public List<Horario> buscarPorMonitorEStatus(String monitor, String status) {
+        List<Horario> lista = new ArrayList<>();
+        try {
+            PreparedStatement st = conn.prepareStatement("select * from horario where status_horario = ? and nome_monitor = ? order by data_horario");
+            st.setString(1, status);
+            st.setString(2, monitor);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                lista.add(new Horario(rs.getInt("id_horario"), rs.getDate("data_horario").toLocalDate(), rs.getString("turno"), rs.getString("hora"), rs.getString("nome_monitor"), rs.getString("status_horario")));
+            }
+        } catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+
+        return lista;
+    }
+
+    @Override
+    public List<Horario> buscarPorSemanaMonitorEStatus(LocalDate data, String monitor, String status) {
+        List<Horario> lista = new ArrayList<>();
+        LocalDate inicioSemana = data.with(DayOfWeek.MONDAY);
+        LocalDate fimSemana = data.with(DayOfWeek.FRIDAY);
+
+        try {
+            PreparedStatement st = conn.prepareStatement("select * from horario where status_horario = ? and nome_monitor = ? and data_horario between ? and ? order by data_horario");
+            st.setString(1, status);
+            st.setString(2, monitor);
+            st.setDate(3, java.sql.Date.valueOf(inicioSemana));
+            st.setDate(4, java.sql.Date.valueOf(fimSemana));
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                lista.add(new Horario(rs.getInt("id_horario"), rs.getDate("data_horario").toLocalDate(), rs.getString("turno"), rs.getString("hora"), rs.getString("nome_monitor"), rs.getString("status_horario")));
+            }
+        } catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+
+        return lista;
     }
 
     // Métodos relacionados com outras tabelas do banco -------------------------------------------------------------

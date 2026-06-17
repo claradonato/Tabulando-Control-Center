@@ -98,29 +98,35 @@
                   </ImageView>
                </graphic>
             </Button>
-            <ComboBox fx:id="filtroMonitor" layoutX="297.0" layoutY="86.0" prefHeight="26.0" prefWidth="130.0" style="-fx-background-color: #ffffff;" />
+            <ComboBox fx:id="filtroMonitor" layoutX="288.0" layoutY="86.0" prefHeight="26.0" prefWidth="117.0" style="-fx-background-color: #ffffff;" />
             <Label layoutX="139.0" layoutY="68.0" text="Data" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="297.0" layoutY="66.0" text="Monitor" textFill="WHITE">
+            <Label layoutX="288.0" layoutY="66.0" text="Monitor" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Button layoutX="438.0" layoutY="84.0" mnemonicParsing="false" onAction="#onFiltrarButtonClicked" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #f58220;" text="Filtrar" textFill="WHITE">
+            <Button layoutX="523.0" layoutY="86.0" mnemonicParsing="false" onAction="#onFiltrarButtonClicked" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #f58220;" text="Filtrar" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button layoutX="517.0" layoutY="84.0" mnemonicParsing="false" onAction="#onLimparFiltroClicked" prefHeight="18.0" prefWidth="70.0" text="Limpar">
+            <Button layoutX="600.0" layoutY="86.0" mnemonicParsing="false" onAction="#onLimparFiltroClicked" prefHeight="18.0" prefWidth="70.0" text="Limpar">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
             <Label fx:id="avisoFiltro" layoutX="438.0" layoutY="66.0" prefHeight="18.0" prefWidth="169.0" />
-            <DatePicker fx:id="filtroData" layoutX="139.0" layoutY="86.0" prefHeight="26.0" prefWidth="149.0" style="-fx-background-color: #ffffff;" />
+            <DatePicker fx:id="filtroData" layoutX="139.0" layoutY="86.0" prefHeight="26.0" prefWidth="142.0" style="-fx-background-color: #ffffff;" />
+            <ComboBox fx:id="filtroStatus" layoutX="414.0" layoutY="86.0" prefHeight="26.0" prefWidth="102.0" style="-fx-background-color: #ffffff;" />
+            <Label layoutX="415.0" layoutY="68.0" text="Status" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>

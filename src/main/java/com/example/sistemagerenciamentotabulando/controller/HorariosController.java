@@ -38,6 +38,8 @@ public class HorariosController implements Initializable {
     @FXML
     private ComboBox<String> filtroMonitor;
     @FXML
+    private ComboBox<String> filtroStatus;
+    @FXML
     private Label avisoFiltro;
     @FXML
     private TableView<Horario> listagemHorarios;
@@ -115,32 +117,52 @@ public class HorariosController implements Initializable {
         filtroMonitor.setItems(FXCollections.observableArrayList(monitores));
     }
 
+    private void carregarFiltroStatus() {
+        filtroStatus.getItems().addAll("Planejado", "Concluido", "Cancelado");
+    }
+
     @FXML
     protected void onFiltrarButtonClicked(){
         LocalDate dataSelecionada = filtroData.getValue();
         String monitor = filtroMonitor.getSelectionModel().getSelectedItem();
+        String status = filtroStatus.getSelectionModel().getSelectedItem();
 
-        List<Horario> resultado;
+        List<Horario> resultado = List.of();
 
         // Nenhum filtro
-        if(dataSelecionada == null && monitor == null){
+        if(dataSelecionada == null && monitor == null && status == null){
             avisoFiltro.setText("Sem filtros.");
             return;
         }
 
         // Apenas data
-        else if(dataSelecionada != null && monitor == null){
+        else if(dataSelecionada != null && monitor == null && status == null){
             resultado = DAOFactory.createHorarioDAO().buscarPorSemana(dataSelecionada);
         }
 
         // Apenas monitor
-        else if(dataSelecionada == null){
+        else if(dataSelecionada == null && monitor != null && status == null){
             resultado = DAOFactory.createHorarioDAO().buscarPorMonitor(monitor);
         }
 
         // Data e monitor
-        else{
+        else if (dataSelecionada != null && monitor != null && status == null){
             resultado = DAOFactory.createHorarioDAO().buscarPorSemanaEMonitor(dataSelecionada, monitor);
+        }
+
+        // Data e status
+        else if (dataSelecionada != null && monitor == null && status != null){
+            resultado = DAOFactory.createHorarioDAO().buscarPorSemanaEStatus(dataSelecionada, status);
+        }
+
+        // Monitor e status
+        else if (dataSelecionada == null && monitor != null && status != null){
+            resultado = DAOFactory.createHorarioDAO().buscarPorMonitorEStatus(monitor, status);
+        }
+
+        // Monitor, data e status
+        else if (dataSelecionada != null && monitor != null && status != null){
+            resultado = DAOFactory.createHorarioDAO().buscarPorSemanaMonitorEStatus(dataSelecionada, monitor, status);
         }
 
         listagemHorarios.setItems(FXCollections.observableArrayList(resultado));
@@ -160,8 +182,9 @@ public class HorariosController implements Initializable {
             configurarColunas();
             configurarColunaHorario();
             configurarColunaOpcoes();
-            carregarDados();
             carregarMonitores();
+            carregarFiltroStatus();
+            carregarDados();
         }
 
         // Tela de exibição com visitantes
@@ -195,6 +218,7 @@ public class HorariosController implements Initializable {
     protected void onLimparFiltroClicked(){
         filtroData.setValue(null);
         filtroMonitor.setValue(null);
+        filtroStatus.setValue(null);
         avisoFiltro.setText(null);
         carregarDados();
     }
