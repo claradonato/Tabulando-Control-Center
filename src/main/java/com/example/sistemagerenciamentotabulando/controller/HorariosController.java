@@ -165,6 +165,11 @@ public class HorariosController implements Initializable {
             resultado = DAOFactory.createHorarioDAO().buscarPorSemanaMonitorEStatus(dataSelecionada, monitor, status);
         }
 
+        // apenas status
+        else {
+            resultado = DAOFactory.createHorarioDAO().buscarPorStatus(status);
+        }
+
         listagemHorarios.setItems(FXCollections.observableArrayList(resultado));
         avisoFiltro.setText(resultado.isEmpty() ? "Nenhum horário encontrado." : "");
     }

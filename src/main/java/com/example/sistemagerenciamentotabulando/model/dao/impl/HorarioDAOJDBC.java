@@ -347,5 +347,69 @@ public class HorarioDAOJDBC implements HorarioDAO {
         return lista;
     }
 
+    @Override
+    public void removerVisitanteHorario(Integer matricula, Integer idHorario) {
+        PreparedStatement st = null;
+
+        try {
+            st = conn.prepareStatement("delete from frequencia where id_visitante = ? and id_horario = ?");
+            st.setInt(1, matricula);
+            st.setInt(2, idHorario);
+            st.executeUpdate();
+        } catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void removerJogoHorario(Integer idJogo, Integer idHorario) {
+        PreparedStatement st = null;
+
+        try {
+            st = conn.prepareStatement("delete from uso_jogo where id_jogo = ? and id_horario = ?");
+            st.setInt(1,idJogo);
+            st.setInt(2,idHorario);
+            st.executeUpdate();
+        } catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int contarVisitantesHorario(Integer idHorario) {
+        PreparedStatement st = null;
+
+        try {
+            st = conn.prepareStatement("select count(*) from frequencia where id_horario = ?");
+            st.setInt(1,idHorario);
+            ResultSet rs = st.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+        } catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+
+    @Override
+    public int contarJogosHorario(Integer idHorario) {
+        PreparedStatement st = null;
+
+        try {
+            st = conn.prepareStatement("select count(*) from uso_jogo where id_horario = ?");
+            st.setInt(1,idHorario);
+            ResultSet rs = st.executeQuery();
+
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+        } catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+
 
 }

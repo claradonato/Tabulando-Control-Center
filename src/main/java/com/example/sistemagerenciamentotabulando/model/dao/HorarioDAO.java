@@ -26,4 +26,8 @@ public interface HorarioDAO {
     void adicionarJogoHorario(Integer idJogo, Integer idHorario);
     List<Visitante> buscarVisitantesHorario(Integer idHorario);
     List<Jogo> buscarJogosHorario(Integer idHorario);
+    void removerVisitanteHorario(Integer matricula, Integer idHorario);
+    void removerJogoHorario(Integer idJogo, Integer idHorario);
+    int contarVisitantesHorario(Integer idHorario);
+    int contarJogosHorario(Integer idHorario);
 }
