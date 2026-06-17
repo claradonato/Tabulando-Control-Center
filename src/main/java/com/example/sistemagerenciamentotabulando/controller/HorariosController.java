@@ -11,10 +11,12 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 public class HorariosController implements Initializable {
     private static Horario horarioSelecionado;
@@ -32,60 +34,63 @@ public class HorariosController implements Initializable {
 
     //Atributos do filtro, tabela e botões
     @FXML
-    private TextField filtrarId;
+    private DatePicker filtroData;
     @FXML
     private Label avisoFiltro;
     @FXML
     private TableView<Horario> listagemHorarios;
     @FXML
-    private TableColumn<Horario, String> colDiaSemana;
+    private TableColumn<Horario, LocalDate> colData; //verifique se o uso de "Date" na coluna está correto
     @FXML
-    private TableColumn<Horario, String> colTurno;
+    private TableColumn<Horario, String> colHorario;
     @FXML
-    private TableColumn<Horario, String> colHora;
+    private TableColumn<Horario, String> colMonitor;
     @FXML
-    private TableColumn<Horario, Void> colAcoes;
+    private TableColumn<Horario, Void> colOpcoes;
 
     @FXML
     protected void onNovoHorarioClicked(){ Application.mudarCena("adicionar-horario.fxml");}
 
+    // configura colunas simples (Data e Monitor)
     private void configurarColunas(){
-        colDiaSemana.setCellValueFactory(new PropertyValueFactory<>("diaSemana"));
-        colTurno.setCellValueFactory(new PropertyValueFactory<>("turno"));
+        colData.setCellValueFactory(new PropertyValueFactory<>("dataHorario"));
+        colMonitor.setCellValueFactory(new PropertyValueFactory<>("nomeMonitor"));
     }
 
-    private void configurarColunaHora(){
-        colHora.setCellFactory(coluna -> new TableCell<Horario, String>() {
-            @Override
+    // configura a coluna horario que retorna 3 informações juntas
+    private void configurarColunaHorario(){
+        colHorario.setCellFactory(coluna -> new TableCell<>() {
+            @Override 
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if(empty){
                     setText(null);
                 } else {
                     Horario h = getTableView().getItems().get(getIndex());
-                    setText(h.getHora() + "\n" + h.getNomeMonitor());
+                    String diaSemana = h.getDataHorario().getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("pt", "BR"));
+                    setText(diaSemana + "\n" + h.getTurno() + "\n" + h.getHora());
                 }
             }
         });
     }
 
-    private void configurarColunaAcoes(){
-        colAcoes.setCellFactory(coluna -> new TableCell<>() {
+    // configura a coluna de opções para cada horário (Ver e Editar)
+    private void configurarColunaOpcoes(){
+        colOpcoes.setCellFactory(coluna -> new TableCell<>() {
             private final Button btnEditar = new Button("Editar");
-            private final Button btnExcluir = new Button("Excluir");
+            private final Button btnVer = new Button("Ver");
             { //bloco inicializador que roda quando a célula é criada | construtor interno
                 btnEditar.setStyle("-fx-background-color: #f58220; -fx-text-fill: white;");
-                btnExcluir.setStyle("-fx-background-color: #d9534f; -fx-text-fill: white;");
+                btnVer.setStyle("-fx-background-color: #d9534f; -fx-text-fill: white;");
 
                 btnEditar.setOnAction(event -> {
                     horarioSelecionado = getTableView().getItems().get(getIndex());
-                    Application.mudarCena("exibir-horario-view.fxml");
+                    Application.mudarCena("editar-horario-view.fxml");
                 });
 
-                btnExcluir.setOnAction(event -> {
-                    Horario h = getTableView().getItems().get(getIndex());
-                    DAOFactory.createHorarioDAO().deletarPorId(h.getId_horario());
-                    carregarDados();
+                btnVer.setOnAction(event -> {
+                    horarioSelecionado = getTableView().getItems().get(getIndex());
+                    Application.mudarCena("exibir-horario-visitantes-view.fxml");
                 });
             }
             @Override
@@ -95,12 +100,24 @@ public class HorariosController implements Initializable {
                 if(empty){ //remove os botões de células que estão vazias
                     setGraphic(null);
                 } else {
-                    HBox botoes = new HBox(5, btnEditar, btnExcluir);
+                    HBox botoes = new HBox(5, btnEditar, btnVer);
                     botoes.setAlignment(Pos.CENTER);
                     setGraphic(botoes);
                 }
             }
         });
+    }
+
+    @FXML
+    protected void onFiltrarButtonClicked(){
+        LocalDate dataSelecionada = filtroData.getValue();
+        if(dataSelecionada == null){
+            avisoFiltro.setText("Selecione uma data.");
+            return;
+        }
+        List<Horario> horariosSemana = DAOFactory.createHorarioDAO().buscarPorSemana(dataSelecionada);
+        listagemHorarios.setItems(FXCollections.observableArrayList(horariosSemana));
+        avisoFiltro.setText(horariosSemana.isEmpty() ? "Nenhum horário encontrado." : "");
     }
 
     private void carregarDados(){
@@ -114,17 +131,30 @@ public class HorariosController implements Initializable {
         // Tela de listagem
         if (listagemHorarios != null) {
             configurarColunas();
-            configurarColunaHora();
-            configurarColunaAcoes();
+            configurarColunaHorario();
+            configurarColunaOpcoes();
             carregarDados();
         }
 
-        // Tela de exibição
-        if(descricaoHorario != null && horarioSelecionado != null){
-            descricaoHorario.setText(horarioSelecionado.getDiaSemana() + " - " + horarioSelecionado.getHora());
+        // Tela de exibição com visitantes
+        if(visitantesHorario != null && horarioSelecionado != null){
+            descricaoHorario.setText(horarioSelecionado.getDataHorario() + " - " + horarioSelecionado.getHora());
             descricaoNomeMonitor.setText(horarioSelecionado.getNomeMonitor());
+            statusHorario.setText(horarioSelecionado.getStatusHorario());
             carregarTabelaVisitantes();
+        }
+
+        // Tela de exibição com jogos
+        if(jogosHorario != null && horarioSelecionado != null){
+            descricaoHorario.setText(horarioSelecionado.getDataHorario() + " - " + horarioSelecionado.getHora());
+            descricaoNomeMonitor.setText(horarioSelecionado.getNomeMonitor());
+            statusHorario.setText(horarioSelecionado.getStatusHorario());
             carregarTabelaJogos();
+        }
+
+        // Tela de editar horario
+        if(dataHorarioEditar != null && horarioSelecionado != null){
+            preencherCamposEdicao(horarioSelecionado);
         }
     }
 
@@ -134,78 +164,74 @@ public class HorariosController implements Initializable {
     }
 
     @FXML
-    protected void onFiltrarButtonClicked(){
-        if(filtrarId.getText() == null || filtrarId.getText().trim().isEmpty()){
-            avisoFiltro.setText("Sem filtro.");
-        }else{
-            Integer id = Integer.parseInt(filtrarId.getText());
-
-            Horario horario = DAOFactory.createHorarioDAO().procurarPorId(id);
-            if(horario != null){
-                ObservableList<Horario> obsHorarios = FXCollections.observableArrayList();
-                obsHorarios.add(horario);
-                listagemHorarios.setItems(obsHorarios);
-                avisoFiltro.setText("");
-            } else {
-                avisoFiltro.setText("Horário não encontrado.");
-                listagemHorarios.setItems(
-                        FXCollections.observableArrayList()
-                );
-            }
-        }
-    }
-
-    @FXML
     protected void onLimparFiltroClicked(){
-        filtrarId.setText(null);
+        filtroData.setTooltip(null);
         avisoFiltro.setText(null);
         carregarDados();
     }
 
     //Atributos e métodos de ADICIONAR HORÁRIO ---------------------------------------------
     @FXML
-    private TextField diaSemana;
+    private DatePicker dataHorarioAdicionar;
     @FXML
-    private TextField turno;
+    private TextField turnoAdicionar;
     @FXML
-    private TextField hora;
+    private TextField horaAdicionar;
     @FXML
-    private TextField nomeMonitor;
+    private TextField nomeMonitorAdicionar;
     @FXML
-    private Button btnFecharAdicionar;
+    private TextField statusHorarioAdicionar;
+
     @FXML
     protected void fecharTelaAdicionar() {
         Application.mudarCena("horarios-view.fxml");
-        carregarDados();
     }
 
     @FXML
     protected void onAdcHorarioClicked(){
-        Horario h = new Horario(diaSemana.getText(), turno.getText(), hora.getText(), nomeMonitor.getText());
+        Horario h = new Horario(dataHorarioAdicionar.getValue(), turnoAdicionar.getText(), horaAdicionar.getText(), nomeMonitorAdicionar.getText(), statusHorarioAdicionar.getText());
         DAOFactory.createHorarioDAO().inserir(h);
-        diaSemana.setText(" ");
-        turno.setText(" ");
-        hora.setText(" ");
-        nomeMonitor.setText(" ");
+        dataHorarioAdicionar.setValue(null);
+        turnoAdicionar.setText(" ");
+        horaAdicionar.setText(" ");
+        nomeMonitorAdicionar.setText(" ");
+        statusHorarioAdicionar.setText(" ");
+
+        Application.mudarCena("horarios-view.fxml");
     }
 
     //Atributos e métodos de EDITAR HORARIO --------------------------------------------------------
     @FXML
-    private Button btnFecharEditar;
+    private DatePicker dataHorarioEditar;
+    @FXML
+    private TextField turnoEditar;
+    @FXML
+    private TextField horaEditar;
+    @FXML
+    private TextField nomeMonitorEditar;
+    @FXML
+    private TextField statusHorarioEditar;
 
     @FXML
     protected void fecharTelaEditar() {
-        Stage stage = (Stage) btnFecharEditar.getScene().getWindow();
-        stage.close();
+        Application.mudarCena("horarios-view.fxml");
     }
-    // fazer "horarioSelecionado = h;" antes de abrir a tela
+
+    private void preencherCamposEdicao(Horario h){
+        dataHorarioEditar.setValue(h.getDataHorario());
+        turnoEditar.setText(h.getTurno());
+        horaEditar.setText(h.getHora());
+        nomeMonitorEditar.setText(h.getNomeMonitor());
+        statusHorarioEditar.setText(h.getStatusHorario());
+    }
 
     @FXML
     protected void onSalvarClicked(){
-        horarioSelecionado.setDiaSemana(diaSemana.getText());
-        horarioSelecionado.setTurno(turno.getText());
-        horarioSelecionado.setHora(hora.getText());
-        horarioSelecionado.setNomeMonitor(nomeMonitor.getText());
+        horarioSelecionado.setDataHorario(dataHorarioEditar.getValue());
+        horarioSelecionado.setTurno(turnoEditar.getText());
+        horarioSelecionado.setHora(horaEditar.getText());
+        horarioSelecionado.setNomeMonitor(nomeMonitorEditar.getText());
+        horarioSelecionado.setStatusHorario(statusHorarioEditar.getText());
         DAOFactory.createHorarioDAO().atualizar(horarioSelecionado);
 
         fecharTelaEditar();
@@ -217,29 +243,21 @@ public class HorariosController implements Initializable {
     @FXML
     private Label descricaoNomeMonitor;
 
-    private void preencherCamposEdicao(Horario h){
-        diaSemana.setText(h.getDiaSemana());
-        turno.setText(h.getTurno());
-        hora.setText(h.getHora());
-        nomeMonitor.setText(h.getNomeMonitor());
-    }
-
-    @FXML
-    protected void onAtualizarHorarioClicked(){
-        if(horarioSelecionado == null){
-            return;
-        }
-        Application.abrirNovaJanela("editar-horario-view.fxml");
-        preencherCamposEdicao(horarioSelecionado);
-    }
-
     // AnchorPane esquerdo com dados dos visitantes
+    @FXML
+    protected void onJogosHorarioClicked(){
+        Application.mudarCena("exibir-horario-jogos-view.fxml");
+    }
+
     @FXML
     private TextField buscarVisitante;
 
     @FXML
-    protected void onBuscarVisitanteClicked(){
+    private Label statusHorario;
 
+    @FXML
+    protected void onBuscarVisitanteClicked(){
+        // adicionar um método para buscar pelo nome
     }
 
     @FXML
@@ -248,14 +266,7 @@ public class HorariosController implements Initializable {
     }
 
     @FXML
-    protected void onAdicionarVisitanteClicked(){
-        Application.abrirNovaJanela("adicionar-visitante-view.fxml");
-        buscarVisitante.clear();
-        carregarTabelaVisitantes();
-    }
-
-    @FXML
-    private TableView<Visitante> visitantesHorario;
+    private TableView<Visitante> visitantesHorario; // tenho que fazer um método para retornar na tabela os alunos que estao com a presença primeiro
     @FXML
     private TableColumn<Visitante, String> colNomeVisitante;
     @FXML
@@ -264,25 +275,25 @@ public class HorariosController implements Initializable {
     private TableColumn<Visitante, String> colGenero;
     @FXML
     private TableColumn<Visitante, String> colCurso;
+    @FXML
+    private TableColumn<Visitante, Void> colPresenca;
 
     @FXML
     private Label totalVisitantes;
 
     //AnchorPane direito com dados dos jogos
+    @FXML
+    protected void onVisitantesHorarioClicked(){
+        Application.mudarCena("exibir-horario-visitantes-view.fxml");
+    }
 
     @FXML
     private TextField buscarJogo;
     @FXML
     protected void onBuscarJogoClicked(){
-        //implementar
+        //implementar um método que busque o jogo pelo nome
     }
-    @FXML
-    protected void onAdicionarJogoClicked(){
-        Integer idJogo = Integer.parseInt(buscarJogo.getText());
-        DAOFactory.createHorarioDAO().adicionarJogoHorario(idJogo, horarioSelecionado.getId_horario());
-        buscarJogo.clear();
-        carregarTabelaJogos();
-    }
+
     @FXML
     private TableView<Jogo> jogosHorario;
     @FXML
@@ -293,6 +304,8 @@ public class HorariosController implements Initializable {
     private TableColumn<Jogo, String> colMarca;
     @FXML
     private TableColumn<Jogo, Integer> colTempoPartida;
+    @FXML
+    private TableColumn<Jogo, Void> colUtilizacao;
     @FXML
     private Label totalJogos;
 

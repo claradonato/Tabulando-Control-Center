@@ -4,14 +4,14 @@ import com.example.sistemagerenciamentotabulando.model.entities.Horario;
 import com.example.sistemagerenciamentotabulando.model.entities.Jogo;
 import com.example.sistemagerenciamentotabulando.model.entities.Visitante;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface HorarioDAO {
     void inserir(Horario h);
     void atualizar(Horario h);
-    void deletarPorId(Integer id_horario);
-    Horario procurarPorId(Integer id_horario);
     List<Horario> listarTodos();
+    List<Horario> buscarPorSemana(LocalDate dataReferencia);
 
     void adicionarVisitanteHorario(Integer matricula, Integer id_horario);
     void adicionarJogoHorario(Integer idJogo, Integer idHorario);

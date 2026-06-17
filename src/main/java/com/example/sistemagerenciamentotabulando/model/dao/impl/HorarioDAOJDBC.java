@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +28,12 @@ public class HorarioDAOJDBC implements HorarioDAO {
         ResultSet rs = null;
 
         try {
-            st = conn.prepareStatement("insert into horario(dia_semana, turno, hora, nome_monitor) values (?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
-            st.setString(1, h.getDiaSemana());
+            st = conn.prepareStatement("insert into horario(data_horario, turno, hora, nome_monitor, status_horario) values (?, ?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
+            st.setDate(1, java.sql.Date.valueOf(h.getDataHorario()));
             st.setString(2, h.getTurno());
             st.setString(3, h.getHora());
             st.setString(4, h.getNomeMonitor());
+            st.setString(5, h.getStatusHorario());
 
             int tuplas = st.executeUpdate();
             if (tuplas != 0) {
@@ -52,53 +55,19 @@ public class HorarioDAOJDBC implements HorarioDAO {
         PreparedStatement st = null;
 
         try {
-            st = conn.prepareStatement("update horario set dia_semana = ?, turno = ?, hora = ?, nome_monitor = ? where id_horario=?");
-            st.setString(1, h.getDiaSemana());
+            st = conn.prepareStatement("update horario set data_horario = ?, turno = ?, hora = ?, nome_monitor = ?, status_horario = ? where id_horario=?");
+            st.setString(1, String.valueOf(h.getDataHorario()));
             st.setString(2, h.getTurno());
             st.setString(3, h.getHora());
             st.setString(4, h.getNomeMonitor());
-            st.setInt(5, h.getId_horario());
+            st.setString(5, h.getStatusHorario());
+            st.setInt(6, h.getId_horario());
             st.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             DB.closeStatement(st);
         }
-    }
-
-    @Override
-    public void deletarPorId(Integer id_horario) {
-        PreparedStatement st = null;
-
-        try {
-            st = conn.prepareStatement("delete from horario where id_horario=?");
-            st.setInt(1, id_horario);
-            st.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            DB.closeStatement(st);
-        }
-    }
-
-    @Override
-    public Horario procurarPorId(Integer id_horario) {
-        PreparedStatement st = null;
-        ResultSet rs = null;
-
-        try {
-            st = conn.prepareStatement("select * from horario where id_horario = ?");
-            st.setInt(1, id_horario);
-            rs = st.executeQuery();
-
-            if (rs.next()) {
-                Horario h = new Horario(rs.getInt("id_horario"), rs.getString("dia_semana"), rs.getString("turno"), rs.getString("hora"), rs.getString("nome_monitor"));
-                return h;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
     }
 
     @Override
@@ -108,10 +77,11 @@ public class HorarioDAOJDBC implements HorarioDAO {
         List<Horario> horarios = new ArrayList<Horario>();
 
         try {
-            st = conn.prepareStatement("select * from horario");
+            st = conn.prepareStatement("select * from horario order by data_horario asc");
             rs = st.executeQuery();
             while (rs.next()) {
-                Horario h = new Horario(rs.getInt("id_horario"), rs.getString("dia_semana"), rs.getString("turno"), rs.getString("hora"), rs.getString("nome_monitor"));
+                Horario h = new Horario(rs.getInt("id_horario"), rs.getDate("data_horario").toLocalDate(), rs.getString("turno"), rs.getString("hora"), rs.getString("nome_monitor"), rs.getString("status_horario"));
+                System.out.println("Status horario: " + rs.getString("status_horario"));
                 horarios.add(h);
             }
         } catch (SQLException e) {
@@ -123,6 +93,29 @@ public class HorarioDAOJDBC implements HorarioDAO {
 
         return horarios;
     }
+
+    @Override
+    public List<Horario> buscarPorSemana(LocalDate dataReferencia) {
+        List<Horario> lista = new ArrayList<>();
+        LocalDate inicioSemana = dataReferencia.with(DayOfWeek.MONDAY);
+        LocalDate fimSemana = dataReferencia.with(DayOfWeek.FRIDAY);
+
+        try{
+            PreparedStatement st = conn.prepareStatement("SELECT * FROM horario WHERE data_horario BETWEEN ? AND ? ORDER BY data_horario");
+            st.setDate(1, java.sql.Date.valueOf(inicioSemana));
+            st.setDate(2, java.sql.Date.valueOf(fimSemana));
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){
+                Horario h = new Horario(rs.getInt("id_horario"), rs.getDate("data_horario").toLocalDate(), rs.getString("turno"), rs.getString("hora"), rs.getString("nome_monitor"), rs.getString("status_horario"));
+                lista.add(h);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return lista;
+    }
+
+    // Métodos relacionados com outras tabelas do banco -------------------------------------------------------------
 
     @Override
     public void adicionarVisitanteHorario(Integer matricula, Integer id_horario) {
@@ -192,4 +185,6 @@ public class HorarioDAOJDBC implements HorarioDAO {
         }
         return lista;
     }
+
+
 }

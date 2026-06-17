@@ -24,6 +24,15 @@ public class JogosController implements Initializable {
 
     // Atributos e métodos da tela JOGOS-VIEW.FXML -------------------------------------------------------------------------------
     @FXML
+    protected void onDashBoardClicked(){
+        Application.mudarCena("dashboard-view.fxml");
+    }
+    @FXML
+    protected void onVisitantesClicked(){ Application.mudarCena("jogos-view.fxml");}
+    @FXML
+    protected void onHorariosClicked() { Application.mudarCena("horarios-view.fxml");}
+
+    @FXML
     private TextField filtrarId;
 
     @FXML

@@ -19,6 +19,15 @@ public class VisitantesController implements Initializable {
     private static Visitante visitanteSelecionado;
 
     @FXML
+    protected void onDashBoardClicked(){
+        Application.mudarCena("dashboard-view.fxml");
+    }
+    @FXML
+    protected void onJogosClicked(){ Application.mudarCena("jogos-view.fxml");}
+    @FXML
+    protected void onHorariosClicked() { Application.mudarCena("horarios-view.fxml");}
+
+    @FXML
     private TextField filtrarMatricula;
     @FXML
     private Label avisoFiltro;

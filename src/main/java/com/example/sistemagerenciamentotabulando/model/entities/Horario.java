@@ -1,34 +1,37 @@
 package com.example.sistemagerenciamentotabulando.model.entities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Horario {
     private Integer id_horario;
-    private String diaSemana;
+    private LocalDate dataHorario;
     private String turno;
     private String hora; //AB ou CD
     private String nomeMonitor;
+    private String statusHorario;
 
     private List<Visitante> frequencia = new ArrayList<>();
     private List<Jogo> jogosUtilizados = new ArrayList<>();
 
-    public Horario(Integer id_horario, String diaSemana, String turno, String hora, String nomeMonitor, List<Visitante> frequencia, List<Jogo> jogosUtilizados) {
+    public Horario(Integer id_horario, LocalDate dataHorario, String turno, String hora, String nomeMonitor, String statusHorario, List<Visitante> frequencia, List<Jogo> jogosUtilizados) {
         this.id_horario = id_horario;
-        this.diaSemana = diaSemana;
+        this.dataHorario = dataHorario;
         this.turno = turno;
         this.hora = hora;
         this.nomeMonitor = nomeMonitor;
-        this.frequencia = frequencia != null ? frequencia : new ArrayList<>();
-        this.jogosUtilizados = jogosUtilizados != null ? jogosUtilizados : new ArrayList<>();
+        this.statusHorario = statusHorario;
+        this.frequencia = frequencia;
+        this.jogosUtilizados = jogosUtilizados;
     }
 
-    public Horario(Integer id_horario, String diaSemana, String turno, String hora, String nomeMonitor) {
-        this(id_horario, diaSemana, turno, hora, nomeMonitor, new ArrayList<>(), new ArrayList<>());
+    public Horario(Integer id_horario, LocalDate dataHorario, String turno, String hora, String nomeMonitor, String statusHorario) {
+        this(id_horario, dataHorario, turno, hora, nomeMonitor, statusHorario, new ArrayList<>(), new ArrayList<>());
     }
 
-    public Horario(String diaSemana, String turno, String hora, String nomeMonitor) {
-        this(null, diaSemana, turno, hora, nomeMonitor, new ArrayList<>(), new ArrayList<>());
+    public Horario(LocalDate dataHorario, String turno, String hora, String nomeMonitor, String statusHorario) {
+        this(null, dataHorario, turno, hora, nomeMonitor, statusHorario);
     }
 
     public Integer getId_horario() {
@@ -39,12 +42,12 @@ public class Horario {
         this.id_horario = id_horario;
     }
 
-    public String getDiaSemana() {
-        return diaSemana;
+    public LocalDate getDataHorario() {
+        return dataHorario;
     }
 
-    public void setDiaSemana(String diaSemana) {
-        this.diaSemana = diaSemana;
+    public void setDataHorario(LocalDate dataHorario) {
+        this.dataHorario = dataHorario;
     }
 
     public String getTurno() {
@@ -70,6 +73,10 @@ public class Horario {
     public void setNomeMonitor(String nomeMonitor) {
         this.nomeMonitor = nomeMonitor;
     }
+
+    public String getStatusHorario() {return statusHorario;}
+
+    public void setStatusHorario(String statusHorario) {this.statusHorario = statusHorario;}
 
     public List<Visitante> getFrequencia() {
         return frequencia;
