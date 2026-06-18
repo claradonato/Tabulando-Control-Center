@@ -348,6 +348,50 @@ public class HorarioDAOJDBC implements HorarioDAO {
     }
 
     @Override
+    public List<Visitante> buscarVisitantePorNome(String nome) {
+        List<Visitante> lista = new ArrayList<>();
+        PreparedStatement st = null;
+
+        try {
+            st = conn.prepareStatement("SELECT * FROM visitante WHERE LOWER(nome) LIKE LOWER(?) ORDER BY nome");
+            st.setString(1, "%" + nome + "%");
+            ResultSet rs = st.executeQuery();
+
+            while(rs.next()) {
+                Visitante visitante = new Visitante(rs.getInt("matricula"), rs.getString("nome"), rs.getInt("idade"), rs.getString("genero"), rs.getString("nivel_ensino"), rs.getString("curso"), rs.getString("turno"), rs.getBoolean("possuiNEE"));
+                lista.add(visitante);
+            }
+
+        } catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return lista;
+    }
+
+    @Override
+    public List<Jogo> buscarJogoPorTitulo(String titulo) {
+        List<Jogo> lista = new ArrayList<>();
+        PreparedStatement st = null;
+
+        try {
+            st = conn.prepareStatement("SELECT * FROM jogo WHERE LOWER(titulo) LIKE LOWER(?) ORDER BY titulo");
+            st.setString(1, "%" + titulo + "%");
+            ResultSet rs = st.executeQuery();
+
+            while(rs.next()) {
+                Jogo jogo = new Jogo(rs.getInt("id_jogo"), rs.getString("titulo"), rs.getString("tipo"), rs.getInt("min_numero_jogadores"), rs.getInt("max_numero_jogadores"), rs.getString("descricao"), rs.getString("marca"), rs.getInt("faixaEtaria"), rs.getInt("tempo_partida"));
+                lista.add(jogo);
+            }
+
+        } catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return lista;
+    }
+
+    @Override
     public void removerVisitanteHorario(Integer matricula, Integer idHorario) {
         PreparedStatement st = null;
 
@@ -411,5 +455,45 @@ public class HorarioDAOJDBC implements HorarioDAO {
         return 0;
     }
 
+    @Override
+    public List<Visitante> listarVisitantesOrdenadosHorario(Integer idHorario) {
+        List<Visitante> lista = new ArrayList<>();
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement("SELECT v.* CASE WHEN f.id_horario IS NULL THEN 0 ELSE 1 END AS esta_no_horario FROM visitante v LEFT JOIN frequencia f ON v.matricula = f.id_visitante AND f.id_horario = ? ORDER BY esta_no_horario DESC, v.nome");
+            st.setInt(1, idHorario);
+            ResultSet rs = st.executeQuery();
 
+            while(rs.next()) {
+                Visitante visitante = new Visitante(rs.getInt("matricula"), rs.getString("nome"), rs.getInt("idade"), rs.getString("genero"), rs.getString("nivel_ensino"), rs.getString("curso"), rs.getString("turno"), rs.getBoolean("possuiNEE"));
+                lista.add(visitante);
+            }
+
+        } catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return lista;
+    }
+
+    @Override
+    public List<Jogo> listarJogosOrdenadosHorario(Integer idHorario) {
+        List<Jogo> lista = new ArrayList<>();
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement("SELECT j.* CASE WHEN uj.id_horario IS NULL THEN 0 ELSE 1 END AS esta_em_uso jogo j LEFT JOIN uso_jogo uj ON j.id_jogo = uj.id_jogo AND uj.id_horario = ? ORDER BY esta_em_uso DESC, j.titulo");
+            st.setInt(1, idHorario);
+            ResultSet rs = st.executeQuery();
+
+            while(rs.next()) {
+                Jogo jogo = new Jogo(rs.getInt("id_jogo"), rs.getString("titulo"), rs.getString("tipo"), rs.getInt("min_numero_jogadores"), rs.getInt("max_numero_jogadores"), rs.getString("descricao"), rs.getString("marca"), rs.getInt("faixaEtaria"), rs.getInt("tempo_partida"));
+                lista.add(jogo);
+            }
+
+        } catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return lista;
+    }
 }
