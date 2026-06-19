@@ -74,38 +74,168 @@ public class JogoDAOJDBC implements JogoDAO {
     }
 
     @Override
-    public void deletarPorId(Integer id_jogo) {
+    public List<Jogo> buscarJogoPorTitulo(String titulo) {
+        List<Jogo> lista = new ArrayList<>();
         PreparedStatement st = null;
 
         try {
-            st = conn.prepareStatement("delete from jogo where id_jogo=?");
-            st.setInt(1, id_jogo);
-            st.executeUpdate();
-        } catch (SQLException e) {
+            st = conn.prepareStatement("SELECT * FROM jogo WHERE LOWER(titulo) LIKE LOWER(?) ORDER BY titulo");
+            st.setString(1, "%" + titulo + "%");
+            ResultSet rs = st.executeQuery();
+
+            while(rs.next()) {
+                Jogo jogo = new Jogo(rs.getInt("id_jogo"), rs.getString("titulo"), rs.getString("tipo"), rs.getInt("min_numero_jogadores"), rs.getInt("max_numero_jogadores"), rs.getString("descricao"), rs.getString("marca"), rs.getInt("faixaEtaria"), rs.getInt("tempo_partida"), rs.getBoolean("disponibilidade"));
+                lista.add(jogo);
+            }
+
+        } catch(SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            DB.closeStatement(st);
         }
+
+        return lista;
     }
 
     @Override
-    public Jogo procurarPorId(Integer id_jogo) {
+    public List<Jogo> buscarJogoPorNumJogadores(Integer quantidade) {
         PreparedStatement st = null;
-        ResultSet rs = null;
+        List<Jogo> lista = new ArrayList<>();
 
         try{
-            st = conn.prepareStatement("select * from jogo where id_jogo = ?");
-            st.setInt(1, id_jogo);
-            rs = st.executeQuery();
+            st = conn.prepareStatement("SELECT * FROM jogo WHERE ? BETWEEN min_numero_jogadores AND max_numero_jogadores ORDER BY titulo");
+            st.setInt(1, quantidade);
 
-            if(rs.next()){
+            ResultSet rs = st.executeQuery();
+
+            while(rs.next()){
                 Jogo j = new Jogo(rs.getInt("id_jogo"), rs.getString("titulo"), rs.getString("tipo"), rs.getInt("min_numero_jogadores"), rs.getInt("max_numero_jogadores"), rs.getString("descricao"), rs.getString("marca"), rs.getInt("faixaEtaria"), rs.getInt("tempo_partida"), rs.getBoolean("disponibilidade"));
-                return j;
+                lista.add(j);
             }
-        } catch (SQLException e) {
+
+        }catch(SQLException e){
             throw new RuntimeException(e);
         }
-        return null;
+
+        return lista;
+    }
+
+    @Override
+    public List<Jogo> buscarJogoPorDisponibilidade(Boolean disponibilidade) {
+        PreparedStatement st = null;
+        List<Jogo> lista = new ArrayList<>();
+
+        try{
+            st = conn.prepareStatement("SELECT * FROM jogo WHERE disponibilidade = ? ORDER BY titulo");
+            st.setBoolean(1, disponibilidade);
+
+            ResultSet rs = st.executeQuery();
+
+            while(rs.next()){
+                Jogo j = new Jogo(rs.getInt("id_jogo"), rs.getString("titulo"), rs.getString("tipo"), rs.getInt("min_numero_jogadores"), rs.getInt("max_numero_jogadores"), rs.getString("descricao"), rs.getString("marca"), rs.getInt("faixaEtaria"), rs.getInt("tempo_partida"), rs.getBoolean("disponibilidade"));
+                lista.add(j);
+            }
+
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+
+        return lista;
+    }
+
+    @Override
+    public List<Jogo> buscarJogoPorTituloENumJogadores(String titulo, Integer quantidade) {
+        PreparedStatement st = null;
+        List<Jogo> lista = new ArrayList<>();
+
+        try{
+            st = conn.prepareStatement("SELECT * FROM jogo WHERE titulo LIKE ? AND ? BETWEEN min_numero_jogadores AND max_numero_jogadores ORDER BY titulo");
+            st.setString(1, "%" + titulo + "%");
+            st.setInt(2, quantidade);
+
+            ResultSet rs = st.executeQuery();
+
+            while(rs.next()){
+                Jogo j = new Jogo(rs.getInt("id_jogo"), rs.getString("titulo"), rs.getString("tipo"), rs.getInt("min_numero_jogadores"), rs.getInt("max_numero_jogadores"), rs.getString("descricao"), rs.getString("marca"), rs.getInt("faixaEtaria"), rs.getInt("tempo_partida"), rs.getBoolean("disponibilidade"));
+                lista.add(j);
+            }
+
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+
+        return lista;
+    }
+
+    @Override
+    public List<Jogo> buscarJogoPorTituloEDisponibilidade(String titulo, Boolean disponibilidade) {
+        PreparedStatement st = null;
+        List<Jogo> lista = new ArrayList<>();
+
+        try{
+            st = conn.prepareStatement("SELECT * FROM jogo WHERE titulo like ? and disponibilidade = ? ORDER BY titulo");
+            st.setString(1, "%" + titulo + "%");
+            st.setBoolean(2, disponibilidade);
+
+            ResultSet rs = st.executeQuery();
+
+            while(rs.next()){
+                Jogo j = new Jogo(rs.getInt("id_jogo"), rs.getString("titulo"), rs.getString("tipo"), rs.getInt("min_numero_jogadores"), rs.getInt("max_numero_jogadores"), rs.getString("descricao"), rs.getString("marca"), rs.getInt("faixaEtaria"), rs.getInt("tempo_partida"), rs.getBoolean("disponibilidade"));
+                lista.add(j);
+            }
+
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+
+        return lista;
+    }
+
+    @Override
+    public List<Jogo> buscarJogoPorNumJogadoresEDisponibilidade(Integer quantidade, Boolean disponibilidade) {
+        PreparedStatement st = null;
+        List<Jogo> lista = new ArrayList<>();
+
+        try{
+            st = conn.prepareStatement("SELECT * FROM jogo WHERE ? BETWEEN min_numero_jogadores AND max_numero_jogadores AND disponibilidade = ? ORDER BY titulo");
+            st.setInt(1, quantidade);
+            st.setBoolean(2, disponibilidade);
+
+            ResultSet rs = st.executeQuery();
+
+            while(rs.next()){
+                Jogo j = new Jogo(rs.getInt("id_jogo"), rs.getString("titulo"), rs.getString("tipo"), rs.getInt("min_numero_jogadores"), rs.getInt("max_numero_jogadores"), rs.getString("descricao"), rs.getString("marca"), rs.getInt("faixaEtaria"), rs.getInt("tempo_partida"), rs.getBoolean("disponibilidade"));
+                lista.add(j);
+            }
+
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+
+        return lista;
+    }
+
+    @Override
+    public List<Jogo> buscarJogoPorTituloNumJogadoresEDisponibilidade(String titulo, Integer quantidade, Boolean disponibilidade) {
+        PreparedStatement st = null;
+        List<Jogo> lista = new ArrayList<>();
+
+        try{
+            st = conn.prepareStatement("SELECT * FROM jogo WHERE titulo LIKE ? and ? BETWEEN min_numero_jogadores AND max_numero_jogadores and disponibilidade = ? ORDER BY titulo");
+            st.setString(1, "%" + titulo + "%");
+            st.setInt(2, quantidade);
+            st.setBoolean(3, disponibilidade);
+
+            ResultSet rs = st.executeQuery();
+
+            while(rs.next()){
+                Jogo j = new Jogo(rs.getInt("id_jogo"), rs.getString("titulo"), rs.getString("tipo"), rs.getInt("min_numero_jogadores"), rs.getInt("max_numero_jogadores"), rs.getString("descricao"), rs.getString("marca"), rs.getInt("faixaEtaria"), rs.getInt("tempo_partida"), rs.getBoolean("disponibilidade"));
+                lista.add(j);
+            }
+
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+
+        return lista;
     }
 
     @Override

@@ -81,12 +81,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Label layoutX="265.0" layoutY="68.0" text="Tipo" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label layoutX="395.0" layoutY="68.0" text="Nº de Jogadores" textFill="WHITE">
+            <Label layoutX="264.0" layoutY="68.0" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -105,8 +100,6 @@
                   <TableColumn fx:id="colAcoes" prefWidth="108.7999267578125" text="Ações" />
               </columns>
             </TableView>
-            <ComboBox layoutX="265.0" layoutY="86.0" prefHeight="26.0" prefWidth="117.0" style="-fx-background-color: #FFFFFF;" />
-            <ComboBox layoutX="395.0" layoutY="86.0" prefHeight="26.0" prefWidth="117.0" style="-fx-background-color: #ffffff;" />
             <Button layoutX="607.0" layoutY="86.0" mnemonicParsing="false" onAction="#onLimparFiltroClicked" prefHeight="26.0" prefWidth="70.0" text="Limpar">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -126,13 +119,25 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Label layoutX="144.0" layoutY="68.0" text="ID DO JOGO" textFill="WHITE">
+            <Label layoutX="144.0" layoutY="68.0" text="Título" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="filtrarId" layoutX="144.0" layoutY="86.0" prefHeight="26.0" prefWidth="107.0" />
+            <TextField fx:id="filtrarTitulo" layoutX="144.0" layoutY="86.0" prefHeight="26.0" prefWidth="107.0" />
             <Label fx:id="avisoFiltro" layoutX="522.0" layoutY="67.0" prefHeight="18.0" prefWidth="155.0" />
+            <Label layoutX="264.0" layoutY="67.0" prefHeight="18.0" prefWidth="98.0" text="Nº de Jogadores" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField fx:id="filtrarNumJogadores" layoutX="264.0" layoutY="86.0" prefHeight="26.0" prefWidth="107.0" />
+            <Label layoutX="380.0" layoutY="67.0" text="Disponibilidade" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="filtrarDisponibilidade" layoutX="380.0" layoutY="86.0" prefHeight="26.0" prefWidth="118.0" style="-fx-background-color: #ffffff;" />
          </children>
       </AnchorPane>
    </children>
