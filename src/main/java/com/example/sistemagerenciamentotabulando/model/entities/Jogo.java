@@ -13,10 +13,11 @@ public class Jogo {
     private String marca;
     private Integer faixaEtaria;
     private Integer tempoPartida;
+    private Boolean disponibilidade;
 
     private List<Horario> horariosPresente = new ArrayList<>();
 
-    public Jogo(Integer id, String titulo, String tipo, Integer minimoNumeroJogadores, Integer maximoNumeroJogadores, String descricao, String marca, Integer faixaEtaria, Integer tempoPartida) {
+    public Jogo(Integer id, String titulo, String tipo, Integer minimoNumeroJogadores, Integer maximoNumeroJogadores, String descricao, String marca, Integer faixaEtaria, Integer tempoPartida, Boolean disponibilidade, List<Horario> horariosPresente) {
         this.id = id;
         this.titulo = titulo;
         this.tipo = tipo;
@@ -26,9 +27,12 @@ public class Jogo {
         this.marca = marca;
         this.faixaEtaria = faixaEtaria;
         this.tempoPartida = tempoPartida;
+        this.disponibilidade = disponibilidade;
+        this.horariosPresente = horariosPresente;
     }
 
-    public Jogo(String titulo, String tipo, Integer minimoNumeroJogadores, Integer maximoNumeroJogadores, String descricao, String marca, Integer faixaEtaria, Integer tempoPartida) {
+    public Jogo(Integer id, String titulo, String tipo, Integer minimoNumeroJogadores, Integer maximoNumeroJogadores, String descricao, String marca, Integer faixaEtaria, Integer tempoPartida, Boolean disponibilidade) {
+        this.id = id;
         this.titulo = titulo;
         this.tipo = tipo;
         this.minimoNumeroJogadores = minimoNumeroJogadores;
@@ -37,6 +41,19 @@ public class Jogo {
         this.marca = marca;
         this.faixaEtaria = faixaEtaria;
         this.tempoPartida = tempoPartida;
+        this.disponibilidade = disponibilidade;
+    }
+
+    public Jogo(String titulo, String tipo, Integer minimoNumeroJogadores, Integer maximoNumeroJogadores, String descricao, String marca, Integer faixaEtaria, Integer tempoPartida, Boolean disponibilidade) {
+        this.titulo = titulo;
+        this.tipo = tipo;
+        this.minimoNumeroJogadores = minimoNumeroJogadores;
+        this.maximoNumeroJogadores = maximoNumeroJogadores;
+        this.descricao = descricao;
+        this.marca = marca;
+        this.faixaEtaria = faixaEtaria;
+        this.tempoPartida = tempoPartida;
+        this.disponibilidade = disponibilidade;
     }
 
     public Integer getId() {
@@ -117,5 +134,13 @@ public class Jogo {
 
     public void setHorariosPresente(List<Horario> horariosPresente) {
         this.horariosPresente = horariosPresente;
+    }
+
+    public Boolean getDisponibilidade() {
+        return disponibilidade;
+    }
+
+    public void setDisponibilidade(Boolean disponibilidade) {
+        this.disponibilidade = disponibilidade;
     }
 }

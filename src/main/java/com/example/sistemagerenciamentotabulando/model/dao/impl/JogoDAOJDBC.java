@@ -23,7 +23,7 @@ public class JogoDAOJDBC implements JogoDAO {
         ResultSet rs = null;
 
         try {
-            st = conn.prepareStatement("insert into jogo(titulo, tipo, min_numero_jogadores, max_numero_jogadores, descricao, marca, faixaEtaria, tempo_partida) values (?, ?, ?, ?, ?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
+            st = conn.prepareStatement("insert into jogo(titulo, tipo, min_numero_jogadores, max_numero_jogadores, descricao, marca, faixaEtaria, tempo_partida, disponibilidade) values (?, ?, ?, ?, ?, ?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
             st.setString(1, j.getTitulo());
             st.setString(2, j.getTipo());
             st.setInt(3, j.getMinimoNumeroJogadores());
@@ -32,6 +32,7 @@ public class JogoDAOJDBC implements JogoDAO {
             st.setString(6, j.getMarca());
             st.setInt(7, j.getFaixaEtaria());
             st.setInt(8, j.getTempoPartida());
+            st.setBoolean(9, j.getDisponibilidade());
 
             int tuplas = st.executeUpdate();
             if(tuplas!=0){
@@ -53,7 +54,7 @@ public class JogoDAOJDBC implements JogoDAO {
         PreparedStatement st = null;
 
         try {
-            st = conn.prepareStatement("update jogo set titulo = ?, tipo = ?, min_numero_jogadores = ?, max_numero_jogadores = ?, descricao = ?, marca = ?, faixaEtaria = ?, tempo_partida = ? where id_jogo=?");
+            st = conn.prepareStatement("update jogo set titulo = ?, tipo = ?, min_numero_jogadores = ?, max_numero_jogadores = ?, descricao = ?, marca = ?, faixaEtaria = ?, tempo_partida = ?, disponibilidade = ? where id_jogo=?");
             st.setString(1, j.getTitulo());
             st.setString(2, j.getTipo());
             st.setInt(3, j.getMinimoNumeroJogadores());
@@ -62,7 +63,8 @@ public class JogoDAOJDBC implements JogoDAO {
             st.setString(6, j.getMarca());
             st.setInt(7, j.getFaixaEtaria());
             st.setInt(8, j.getTempoPartida());
-            st.setInt(9, j.getId());
+            st.setBoolean(9, j.getDisponibilidade());
+            st.setInt(10, j.getId());
             st.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -97,7 +99,7 @@ public class JogoDAOJDBC implements JogoDAO {
             rs = st.executeQuery();
 
             if(rs.next()){
-                Jogo j = new Jogo(rs.getInt("id_jogo"), rs.getString("titulo"), rs.getString("tipo"), rs.getInt("min_numero_jogadores"), rs.getInt("max_numero_jogadores"), rs.getString("descricao"), rs.getString("marca"), rs.getInt("faixaEtaria"), rs.getInt("tempo_partida"));
+                Jogo j = new Jogo(rs.getInt("id_jogo"), rs.getString("titulo"), rs.getString("tipo"), rs.getInt("min_numero_jogadores"), rs.getInt("max_numero_jogadores"), rs.getString("descricao"), rs.getString("marca"), rs.getInt("faixaEtaria"), rs.getInt("tempo_partida"), rs.getBoolean("disponibilidade"));
                 return j;
             }
         } catch (SQLException e) {
@@ -116,7 +118,7 @@ public class JogoDAOJDBC implements JogoDAO {
             st = conn.prepareStatement("select * from jogo");
             rs = st.executeQuery();
             while(rs.next()){
-                Jogo j = new Jogo(rs.getInt("id_jogo"), rs.getString("titulo"), rs.getString("tipo"), rs.getInt("min_numero_jogadores"), rs.getInt("max_numero_jogadores"), rs.getString("descricao"), rs.getString("marca"), rs.getInt("faixaEtaria"), rs.getInt("tempo_partida"));
+                Jogo j = new Jogo(rs.getInt("id_jogo"), rs.getString("titulo"), rs.getString("tipo"), rs.getInt("min_numero_jogadores"), rs.getInt("max_numero_jogadores"), rs.getString("descricao"), rs.getString("marca"), rs.getInt("faixaEtaria"), rs.getInt("tempo_partida"), rs.getBoolean("disponibilidade"));
                 jogos.add(j);
             }
         } catch (SQLException e) {

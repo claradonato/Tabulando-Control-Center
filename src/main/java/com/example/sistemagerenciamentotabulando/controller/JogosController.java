@@ -7,16 +7,16 @@ import com.example.sistemagerenciamentotabulando.model.entities.Jogo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
-
 import java.net.URL;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class JogosController implements Initializable {
@@ -44,11 +44,11 @@ public class JogosController implements Initializable {
     @FXML
     private TableColumn<Jogo, String> colTitulo;
     @FXML
-    private TableColumn<Jogo, String> colTipo;
+    private TableColumn<Jogo, String> colDisponibilidade;
     @FXML
     private TableColumn<Jogo, Integer> colNumeroMinJogadores;
     @FXML
-    private TableColumn<Jogo, Integer> colTempo;
+    private TableColumn<Jogo, String> colInformacoes;
     @FXML
     private TableColumn<Jogo, Void> colAcoes;
 
@@ -65,9 +65,23 @@ public class JogosController implements Initializable {
 
     private void configurarColunas(){
         colTitulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
-        colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+        colDisponibilidade.setCellValueFactory(new PropertyValueFactory<>("disponibilidade"));
         colNumeroMinJogadores.setCellValueFactory(new PropertyValueFactory<>("minimoNumeroJogadores"));
-        colTempo.setCellValueFactory(new PropertyValueFactory<>("tempoPartida"));
+    }
+
+    private void configurarColunaInformacoes(){
+        colInformacoes.setCellFactory(coluna -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if(empty){
+                    setText(null);
+                } else {
+                    Jogo j = getTableView().getItems().get(getIndex());
+                    setText(j.getTipo() + "\n" + j.getMarca()+ "\n" + j.getFaixaEtaria() + "+");
+                }
+            }
+        });
     }
     
     private void configurarColunaAcoes(){
@@ -109,6 +123,7 @@ public class JogosController implements Initializable {
         // jogos-view.fxml
         if(listagemJogos != null){
             configurarColunas();
+            configurarColunaInformacoes();
             configurarColunaAcoes();
             carregarDados();
         }
@@ -173,6 +188,8 @@ public class JogosController implements Initializable {
     private Label faixaEtaria;
     @FXML
     private Label tempoPartida;
+    @FXML
+    private Label disponibilidade;
 
     @FXML
     public void preencherCamposJogo(Jogo j) {
@@ -183,6 +200,7 @@ public class JogosController implements Initializable {
         marca.setText("Marca: " + j.getMarca());
         faixaEtaria.setText("Faixa etária: " + String.valueOf(j.getFaixaEtaria()));
         tempoPartida.setText("Tempo de partida: " + String.valueOf(j.getTempoPartida()));
+        disponibilidade.setText("Disponibilidade: " + String.valueOf(j.getDisponibilidade()));
     }
 
     @FXML
@@ -212,10 +230,12 @@ public class JogosController implements Initializable {
     private TextField faixaEtariaAdicionar;
     @FXML
     private TextField tempoPartidaAdicionar;
+    @FXML
+    private TextField disponibilidadeAdicionar;
 
     @FXML
     protected void onSalvarJogoClicked(){
-        Jogo j = new Jogo(tituloAdicionar.getText(), tipoAdicionar.getText(), Integer.parseInt(minJogadores.getText()), Integer.parseInt(maxJogadores.getText()), descricaoAdicionar.getText(), marcaAdicionar.getText(), Integer.parseInt(faixaEtariaAdicionar.getText()), Integer.parseInt(tempoPartidaAdicionar.getText()));
+        Jogo j = new Jogo(tituloAdicionar.getText(), tipoAdicionar.getText(), Integer.parseInt(minJogadores.getText()), Integer.parseInt(maxJogadores.getText()), descricaoAdicionar.getText(), marcaAdicionar.getText(), Integer.parseInt(faixaEtariaAdicionar.getText()), Integer.parseInt(tempoPartidaAdicionar.getText()), Boolean.valueOf(disponibilidadeAdicionar.getText()));
         DAOFactory.createJogoDAO().inserir(j);
         tituloAdicionar.setText(" ");
         tipoAdicionar.setText(" ");
@@ -225,6 +245,7 @@ public class JogosController implements Initializable {
         marcaAdicionar.setText(" ");
         faixaEtariaAdicionar.setText(" ");
         tempoPartidaAdicionar.setText(" ");
+        disponibilidadeAdicionar.setText(" ");
     }
 
     @FXML
@@ -252,6 +273,8 @@ public class JogosController implements Initializable {
     private TextField faixaEtariaEditar;
     @FXML
     private TextField tempoPartidaEditar;
+    @FXML
+    private TextField disponibilidadeEditar;
 
     @FXML
     protected void fecharTelaEditar() {
@@ -268,6 +291,7 @@ public class JogosController implements Initializable {
         marcaEditar.setText(j.getMarca());
         faixaEtariaEditar.setText(String.valueOf(j.getFaixaEtaria()));
         tempoPartidaEditar.setText(String.valueOf(j.getTempoPartida()));
+        disponibilidadeEditar.setText(String.valueOf(j.getDisponibilidade()));
     }
 
     @FXML
@@ -280,6 +304,7 @@ public class JogosController implements Initializable {
         jogoSelecionado.setMarca(marcaEditar.getText());
         jogoSelecionado.setFaixaEtaria(Integer.valueOf(faixaEtariaEditar.getText()));
         jogoSelecionado.setTempoPartida(Integer.valueOf(tempoPartidaEditar.getText()));
+        jogoSelecionado.setDisponibilidade(Boolean.valueOf(disponibilidadeEditar.getText()));
 
         DAOFactory.createJogoDAO().atualizar(jogoSelecionado);
         System.out.println("Atualizado no BD.");

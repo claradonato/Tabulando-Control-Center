@@ -98,11 +98,11 @@
             </Button>
             <TableView fx:id="listagemJogos" layoutX="144.0" layoutY="123.0" prefHeight="290.0" prefWidth="534.0">
               <columns>
-                <TableColumn fx:id="colTitulo" prefWidth="130.4001007080078" text="Jogo" />
-                <TableColumn fx:id="colTipo" minWidth="0.0" prefWidth="90.4000244140625" text="Tipo" />
-                  <TableColumn fx:id="colNumeroMinJogadores" prefWidth="112.79998779296875" text="Nº de Jogadores" />
-                  <TableColumn fx:id="colTempo" prefWidth="92.800048828125" text="Tempo" />
-                  <TableColumn fx:id="colAcoes" prefWidth="112.800048828125" text="Ações" />
+                <TableColumn fx:id="colTitulo" prefWidth="135.20008850097656" text="Jogo" />
+                <TableColumn fx:id="colDisponibilidade" minWidth="0.0" prefWidth="69.5999755859375" text="Disponível" />
+                  <TableColumn fx:id="colNumeroMinJogadores" prefWidth="107.20001220703125" text="Jogadores" />
+                  <TableColumn fx:id="colInformacoes" prefWidth="127.20001220703125" text="+ Informações" />
+                  <TableColumn fx:id="colAcoes" prefWidth="108.7999267578125" text="Ações" />
               </columns>
             </TableView>
             <ComboBox layoutX="265.0" layoutY="86.0" prefHeight="26.0" prefWidth="117.0" style="-fx-background-color: #FFFFFF;" />

@@ -514,7 +514,7 @@ public class HorariosController implements Initializable {
         colTitulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
         colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
         colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
-        colTempoPartida.setCellValueFactory(new PropertyValueFactory<>("tempo_partida"));
+        colTempoPartida.setCellValueFactory(new PropertyValueFactory<>("tempoPartida"));
         configurarColunaAcoesJogo();
         List<Jogo> lista = DAOFactory.createHorarioDAO().listarJogosOrdenadosHorario(horarioSelecionado.getId_horario());
         jogosHorario.setItems(FXCollections.observableArrayList(lista));
