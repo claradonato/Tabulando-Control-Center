@@ -370,6 +370,40 @@ public class HorarioDAOJDBC implements HorarioDAO {
     }
 
     @Override
+    public boolean verificarSeVisitanteEstaNoHorario(Integer matricula, Integer idHorario) {
+        PreparedStatement st = null;
+
+        try {
+            st = conn.prepareStatement("SELECT COUNT(*) FROM frequencia WHERE id_visitante = ? AND id_horario = ?");
+            st.setInt(1, matricula);
+            st.setInt(2, idHorario);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+
+            return rs.getInt(1) > 0;
+        } catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean verificarSeJogoEstaNoHorario(Integer idJogo, Integer idHorario) {
+        PreparedStatement st = null;
+
+        try {
+            st = conn.prepareStatement("SELECT COUNT(*) FROM uso_jogo WHERE id_jogo = ? AND id_horario = ?");
+            st.setInt(1, idJogo);
+            st.setInt(2, idHorario);
+            ResultSet rs = st.executeQuery();
+            rs.next();
+
+            return rs.getInt(1) > 0;
+        } catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public List<Jogo> buscarJogoPorTitulo(String titulo) {
         List<Jogo> lista = new ArrayList<>();
         PreparedStatement st = null;
@@ -460,7 +494,7 @@ public class HorarioDAOJDBC implements HorarioDAO {
         List<Visitante> lista = new ArrayList<>();
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("SELECT v.* CASE WHEN f.id_horario IS NULL THEN 0 ELSE 1 END AS esta_no_horario FROM visitante v LEFT JOIN frequencia f ON v.matricula = f.id_visitante AND f.id_horario = ? ORDER BY esta_no_horario DESC, v.nome");
+            st = conn.prepareStatement("SELECT v.*, CASE WHEN f.id_horario IS NULL THEN 0 ELSE 1 END AS esta_no_horario FROM visitante v LEFT JOIN frequencia f ON v.matricula = f.id_visitante AND f.id_horario = ? ORDER BY esta_no_horario DESC, v.nome");
             st.setInt(1, idHorario);
             ResultSet rs = st.executeQuery();
 
@@ -481,7 +515,7 @@ public class HorarioDAOJDBC implements HorarioDAO {
         List<Jogo> lista = new ArrayList<>();
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("SELECT j.* CASE WHEN uj.id_horario IS NULL THEN 0 ELSE 1 END AS esta_em_uso jogo j LEFT JOIN uso_jogo uj ON j.id_jogo = uj.id_jogo AND uj.id_horario = ? ORDER BY esta_em_uso DESC, j.titulo");
+            st = conn.prepareStatement("SELECT j.*, CASE WHEN uj.id_horario IS NULL THEN 0 ELSE 1 END AS esta_em_uso FROM jogo j LEFT JOIN uso_jogo uj ON j.id_jogo = uj.id_jogo AND uj.id_horario = ? ORDER BY esta_em_uso DESC, j.titulo");
             st.setInt(1, idHorario);
             ResultSet rs = st.executeQuery();
 

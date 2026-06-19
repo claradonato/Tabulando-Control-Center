@@ -333,7 +333,19 @@ public class HorariosController implements Initializable {
 
     @FXML
     protected void onBuscarVisitanteClicked(){
-        // adicionar um método para buscar pelo nome
+        String nome = buscarVisitante.getText();
+        if(nome == null || nome.isBlank()) {
+            carregarTabelaVisitantes();
+            return;
+        }
+        List<Visitante> lista = DAOFactory.createHorarioDAO().buscarVisitantePorNome(nome);
+        visitantesHorario.setItems(FXCollections.observableArrayList(lista));
+    }
+
+    @FXML
+    protected void onLimparBuscaVisitanteClicked(){
+        buscarVisitante.clear();
+        carregarTabelaVisitantes();
     }
 
     @FXML
@@ -342,7 +354,7 @@ public class HorariosController implements Initializable {
     }
 
     @FXML
-    private TableView<Visitante> visitantesHorario; // tenho que fazer um método para retornar na tabela os alunos que estao com a presença primeiro
+    private TableView<Visitante> visitantesHorario;
     @FXML
     private TableColumn<Visitante, String> colNomeVisitante;
     @FXML
@@ -367,7 +379,19 @@ public class HorariosController implements Initializable {
     private TextField buscarJogo;
     @FXML
     protected void onBuscarJogoClicked(){
-        //implementar um método que busque o jogo pelo nome
+        String nome = buscarJogo.getText();
+        if(nome == null || nome.isBlank()) {
+            carregarTabelaVisitantes();
+            return;
+        }
+        List<Jogo> lista = DAOFactory.createHorarioDAO().buscarJogoPorTitulo(nome);
+        jogosHorario.setItems(FXCollections.observableArrayList(lista));
+    }
+
+    @FXML
+    protected void onLimparBuscaJogoClicked(){
+        buscarJogo.clear();
+        carregarTabelaJogos();
     }
 
     @FXML
@@ -385,15 +409,104 @@ public class HorariosController implements Initializable {
     @FXML
     private Label totalJogos;
 
+    private void configurarColunaAcoesVisitante(){
+        colPresenca.setCellFactory(coluna -> new TableCell<>(){
+            private final Label check = new Label("✓");
+            private final Button btnAdicionar = new Button("+ Adicionar");
+            private final Button btnRemover = new Button("Remover");
+            {
+                btnAdicionar.setStyle("-fx-background-color: #28a745;" + "-fx-text-fill: white;");
+                btnRemover.setStyle("-fx-background-color: #dc3545;" + "-fx-text-fill: white;");
+                btnAdicionar.setOnAction(event -> {
+                    Visitante visitante = getTableView().getItems().get(getIndex());
+                    DAOFactory.createHorarioDAO().adicionarVisitanteHorario(visitante.getMatricula(), horarioSelecionado.getId_horario());
+                    carregarTabelaVisitantes();
+                });
+
+                btnRemover.setOnAction(event -> {
+                    Visitante visitante = getTableView().getItems().get(getIndex());
+                    DAOFactory.createHorarioDAO().removerVisitanteHorario(visitante.getMatricula(), horarioSelecionado.getId_horario());
+                    carregarTabelaVisitantes();
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if(empty){
+                    setGraphic(null);
+                    return;
+                }
+                Visitante visitante = getTableView().getItems().get(getIndex());
+                boolean estaNoHorario = DAOFactory.createHorarioDAO().verificarSeVisitanteEstaNoHorario(visitante.getMatricula(), horarioSelecionado.getId_horario());
+
+                if(estaNoHorario){
+                    HBox box = new HBox(8, check, btnRemover);
+                    box.setAlignment(Pos.CENTER);
+                    setGraphic(box);
+                } else {
+                    HBox box = new HBox(btnAdicionar);
+                    box.setAlignment(Pos.CENTER);
+                    setGraphic(box);
+                }
+            }
+        });
+    }
+
+    private void configurarColunaAcoesJogo(){
+        colUtilizacao.setCellFactory(coluna -> new TableCell<>(){
+            private final Label check = new Label("✓");
+            private final Button btnAdicionar = new Button("+ Adicionar");
+            private final Button btnRemover = new Button("Remover");
+            {
+                btnAdicionar.setStyle("-fx-background-color: #28a745;" + "-fx-text-fill: white;");
+                btnRemover.setStyle("-fx-background-color: #dc3545;" + "-fx-text-fill: white;");
+                btnAdicionar.setOnAction(event -> {
+                    Jogo jogo = getTableView().getItems().get(getIndex());
+                    DAOFactory.createHorarioDAO().adicionarJogoHorario(jogo.getId(), horarioSelecionado.getId_horario());
+                    carregarTabelaJogos();
+                });
+
+                btnRemover.setOnAction(event -> {
+                    Jogo jogo = getTableView().getItems().get(getIndex());
+                    DAOFactory.createHorarioDAO().removerJogoHorario(jogo.getId(), horarioSelecionado.getId_horario());
+                    carregarTabelaJogos();
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if(empty){
+                    setGraphic(null);
+                    return;
+                }
+                Jogo jogo = getTableView().getItems().get(getIndex());
+                boolean estaNoHorario = DAOFactory.createHorarioDAO().verificarSeJogoEstaNoHorario(jogo.getId(), horarioSelecionado.getId_horario());
+
+                if(estaNoHorario){
+                    HBox box = new HBox(8, check, btnRemover);
+                    box.setAlignment(Pos.CENTER);
+                    setGraphic(box);
+                } else {
+                    HBox box = new HBox(btnAdicionar);
+                    box.setAlignment(Pos.CENTER);
+                    setGraphic(box);
+                }
+            }
+        });
+    }
+
     @FXML
     private void carregarTabelaVisitantes(){
         colNomeVisitante.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colIdade.setCellValueFactory(new PropertyValueFactory<>("idade"));
         colGenero.setCellValueFactory(new PropertyValueFactory<>("genero"));
         colCurso.setCellValueFactory(new PropertyValueFactory<>("curso"));
-        List<Visitante> lista = DAOFactory.createHorarioDAO().buscarVisitantesHorario(horarioSelecionado.getId_horario());
+        configurarColunaAcoesVisitante();
+        List<Visitante> lista = DAOFactory.createHorarioDAO().listarVisitantesOrdenadosHorario(horarioSelecionado.getId_horario());
         visitantesHorario.setItems(FXCollections.observableArrayList(lista));
-        totalVisitantes.setText(String.valueOf(lista.size()));
+        totalVisitantes.setText(String.valueOf(DAOFactory.createHorarioDAO().contarVisitantesHorario(horarioSelecionado.getId_horario())));
     }
 
     @FXML
@@ -402,8 +515,9 @@ public class HorariosController implements Initializable {
         colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
         colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
         colTempoPartida.setCellValueFactory(new PropertyValueFactory<>("tempo_partida"));
-        List<Jogo> lista = DAOFactory.createHorarioDAO().buscarJogosHorario(horarioSelecionado.getId_horario());
+        configurarColunaAcoesJogo();
+        List<Jogo> lista = DAOFactory.createHorarioDAO().listarJogosOrdenadosHorario(horarioSelecionado.getId_horario());
         jogosHorario.setItems(FXCollections.observableArrayList(lista));
-        totalJogos.setText(String.valueOf(lista.size()));
+        totalJogos.setText(String.valueOf(DAOFactory.createHorarioDAO().contarJogosHorario(horarioSelecionado.getId_horario())));
     }
 }

@@ -27,6 +27,8 @@ public interface HorarioDAO {
     List<Visitante> buscarVisitantesHorario(Integer idHorario);
     List<Jogo> buscarJogosHorario(Integer idHorario);
     List<Visitante> buscarVisitantePorNome(String nome);
+    boolean verificarSeVisitanteEstaNoHorario(Integer matricula, Integer idHorario);
+    boolean verificarSeJogoEstaNoHorario(Integer idJogo, Integer idHorario);
     List<Jogo> buscarJogoPorTitulo(String titulo);
     void removerVisitanteHorario(Integer matricula, Integer idHorario);
     void removerJogoHorario(Integer idJogo, Integer idHorario);

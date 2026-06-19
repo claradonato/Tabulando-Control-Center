@@ -30,8 +30,8 @@
                         <TableColumn fx:id="colTitulo" prefWidth="175.19997882843018" text="Tìtulo" />
                         <TableColumn fx:id="colTipo" prefWidth="108.80000305175781" text="Tipo" />
                         <TableColumn fx:id="colMarca" prefWidth="113.60003662109375" text="Marca" />
-                        <TableColumn fx:id="colTempoPartida" prefWidth="180.800048828125" text="Tempo de partida" />
-                        <TableColumn fx:id="colUtilizacao" prefWidth="84.7999267578125" text="Utilização" />
+                        <TableColumn fx:id="colTempoPartida" prefWidth="158.4000244140625" text="Tempo de partida" />
+                        <TableColumn fx:id="colUtilizacao" prefWidth="107.99993896484375" text="Utilização" />
                      </columns>
                   </TableView>
                   <Label layoutX="17.0" layoutY="333.0" text="Total de jogos utilizados:">
@@ -40,7 +40,7 @@
                      </font>
                   </Label>
                   <Label fx:id="totalJogos" layoutX="164.0" layoutY="332.0" prefHeight="18.0" prefWidth="44.0" />
-                  <Button layoutX="368.0" layoutY="61.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="95.0" style="-fx-background-color: #ffe9e9;" text="Limpar busca" textFill="#f58220" />
+                  <Button layoutX="368.0" layoutY="61.0" mnemonicParsing="false" onAction="#onLimparBuscaJogoClicked" prefHeight="26.0" prefWidth="95.0" style="-fx-background-color: #ffe9e9;" text="Limpar busca" textFill="#f58220" />
                </children>
             </AnchorPane>
          </items>
