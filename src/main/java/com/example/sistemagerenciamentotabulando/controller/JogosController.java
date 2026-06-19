@@ -69,7 +69,20 @@ public class JogosController implements Initializable {
 
     private void configurarColunas(){
         colTitulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
-        colDisponibilidade.setCellValueFactory(new PropertyValueFactory<>("disponibilidade"));
+
+        colDisponibilidade.setCellFactory(coluna -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if(empty){
+                    setText(null);
+                } else {
+                    Jogo j = getTableView().getItems().get(getIndex());
+                    setText(j.getDisponibilidade() ? "Sim" : "Não");
+                }
+            }
+        });
+
         colNumeroMinJogadores.setCellValueFactory(new PropertyValueFactory<>("minimoNumeroJogadores"));
     }
 
@@ -149,6 +162,7 @@ public class JogosController implements Initializable {
             tipoEditar.getItems().addAll("Estratégia", "Cooperativo", "PartyGame", "Wargame", "Dedução/Blefe", "RPG", "Destreza");
             marcaEditar.getItems().addAll("Galápagos", "Devir Brasil", "Grok", "PaperGames", "Estrela");
             disponibilidadeEditar.getItems().addAll("Disponível", "Indisponível");
+            System.out.println("Chamando preencherCamposEdicao");
             carregarJogoEditar(jogoSelecionado);
         }
     }

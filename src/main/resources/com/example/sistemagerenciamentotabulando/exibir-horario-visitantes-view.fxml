@@ -25,7 +25,7 @@
                   <Label layoutX="17.0" layoutY="43.0" text="Buscar visitante:" />
                   <TextField fx:id="buscarVisitante" layoutX="17.0" layoutY="61.0" prefHeight="26.0" prefWidth="276.0" promptText="Digite o nome do visitante" />
                   <Button layoutX="300.0" layoutY="61.0" mnemonicParsing="false" onAction="#onBuscarVisitanteClicked" prefHeight="26.0" prefWidth="57.0" style="-fx-background-color: #ffe9e9;" text="Buscar" textFill="#f58220" />
-                  <TableView fx:id="visitantesHorario" layoutX="14.0" layoutY="100.0" prefHeight="217.0" prefWidth="659.0">
+                  <TableView fx:id="visitantesHorario" layoutX="14.0" layoutY="100.0" prefHeight="217.0" prefWidth="659.0" style="-fx-background-color: #ffdbbb;">
                     <columns>
                       <TableColumn fx:id="colNomeVisitante" prefWidth="206.39999103546143" text="Nome do visitante" />
                       <TableColumn fx:id="colIdade" prefWidth="51.20002746582031" text="Idade" />

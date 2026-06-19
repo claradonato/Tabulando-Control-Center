@@ -11,7 +11,6 @@ public interface HorarioDAO {
     void inserir(Horario h);
     void atualizar(Horario h);
     List<Horario> listarTodos();
-    List<String> listarMonitores();
 
     //métodos de busca para o filtro de horário na tableview
     List<Horario> buscarPorSemana(LocalDate dataReferencia);
@@ -24,8 +23,6 @@ public interface HorarioDAO {
 
     void adicionarVisitanteHorario(Integer matricula, Integer id_horario);
     void adicionarJogoHorario(Integer idJogo, Integer idHorario);
-    List<Visitante> buscarVisitantesHorario(Integer idHorario);
-    List<Jogo> buscarJogosHorario(Integer idHorario);
     List<Visitante> buscarVisitantePorNome(String nome);
     boolean verificarSeVisitanteEstaNoHorario(Integer matricula, Integer idHorario);
     boolean verificarSeJogoEstaNoHorario(Integer idJogo, Integer idHorario);

@@ -57,7 +57,25 @@ public class HorariosController implements Initializable {
 
     // configura colunas simples (Data e Monitor)
     private void configurarColunas(){
-        colData.setCellValueFactory(new PropertyValueFactory<>("dataHorario"));
+        colData.setCellValueFactory(
+                new PropertyValueFactory<>("dataHorario")
+        );
+        colData.setCellFactory(coluna -> new TableCell<>() {
+            @Override
+            protected void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if(empty || item == null){
+                    setText(null);
+                } else {
+                    setText(
+                            item.format(
+                                    java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                            )
+                    );
+                }
+            }
+        });
         colMonitor.setCellValueFactory(new PropertyValueFactory<>("nomeMonitor"));
     }
 
@@ -110,11 +128,6 @@ public class HorariosController implements Initializable {
                 }
             }
         });
-    }
-
-    private void carregarMonitores(){
-        List<String> monitores = DAOFactory.createHorarioDAO().listarMonitores();
-        filtroMonitor.setItems(FXCollections.observableArrayList(monitores));
     }
 
     private void carregarFiltroStatus() {
@@ -187,7 +200,8 @@ public class HorariosController implements Initializable {
             configurarColunas();
             configurarColunaHorario();
             configurarColunaOpcoes();
-            carregarMonitores();
+            // carregar combobox
+            filtroMonitor.getItems().addAll("Donato", "Henrique", "Rodrigues", "Camilly", "João Vitor", "Leonardo", "Marchon", "Vagner", "Ingrid", "Iasmim");
             carregarFiltroStatus();
             carregarDados();
         }
@@ -211,6 +225,15 @@ public class HorariosController implements Initializable {
         // Tela de editar horario
         if(dataHorarioEditar != null && horarioSelecionado != null){
             preencherCamposEdicao(horarioSelecionado);
+
+        }
+
+        // Tela adicionar horario
+        if(dataHorarioAdicionar != null){
+            turnoAdicionar.getItems().addAll("Tarde", "Noite", "Interturno");
+            horaAdicionar.getItems().addAll("AB", "CD", "Interturno");
+            nomeMonitorAdicionar.getItems().addAll("Donato", "Henrique", "Rodrigues", "Camilly", "João Vitor", "Leonardo", "Marchon", "Vagner", "Ingrid", "Iasmim");
+            statusHorarioAdicionar.getItems().addAll("Concluido", "Planejado", "Cancelado");
         }
     }
 
@@ -232,13 +255,13 @@ public class HorariosController implements Initializable {
     @FXML
     private DatePicker dataHorarioAdicionar;
     @FXML
-    private TextField turnoAdicionar;
+    private ComboBox<String> turnoAdicionar;
     @FXML
-    private TextField horaAdicionar;
+    private ComboBox<String> horaAdicionar;
     @FXML
-    private TextField nomeMonitorAdicionar;
+    private ComboBox<String> nomeMonitorAdicionar;
     @FXML
-    private TextField statusHorarioAdicionar;
+    private ComboBox<String> statusHorarioAdicionar;
 
     @FXML
     protected void fecharTelaAdicionar() {
@@ -247,13 +270,13 @@ public class HorariosController implements Initializable {
 
     @FXML
     protected void onAdcHorarioClicked(){
-        Horario h = new Horario(dataHorarioAdicionar.getValue(), turnoAdicionar.getText(), horaAdicionar.getText(), nomeMonitorAdicionar.getText(), statusHorarioAdicionar.getText());
+        Horario h = new Horario(dataHorarioAdicionar.getValue(), turnoAdicionar.getValue(), horaAdicionar.getValue(), nomeMonitorAdicionar.getValue(), statusHorarioAdicionar.getValue());
         DAOFactory.createHorarioDAO().inserir(h);
         dataHorarioAdicionar.setValue(null);
-        turnoAdicionar.setText(" ");
-        horaAdicionar.setText(" ");
-        nomeMonitorAdicionar.setText(" ");
-        statusHorarioAdicionar.setText(" ");
+        turnoAdicionar.setValue(null);
+        horaAdicionar.setValue(null);
+        nomeMonitorAdicionar.setValue(null);
+        statusHorarioAdicionar.setValue(null);
 
         Application.mudarCena("horarios-view.fxml");
     }

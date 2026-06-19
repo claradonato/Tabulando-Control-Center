@@ -114,27 +114,6 @@ public class HorarioDAOJDBC implements HorarioDAO {
     }
 
     @Override
-    public List<String> listarMonitores() {
-        PreparedStatement st = null;
-        ResultSet rs = null;
-        List<String> lista = new ArrayList<>();
-
-        try {
-            st = conn.prepareStatement("select distinct nome_monitor from horario order by nome_monitor");
-            rs = st.executeQuery();
-            while(rs.next()){
-                lista.add(rs.getString("nome_monitor"));
-            }
-        } catch (SQLException e){
-            throw new RuntimeException(e);
-        } finally {
-            DB.closeStatement(st);
-            DB.closeResultSet(rs);
-        }
-        return lista;
-    }
-
-    @Override
     public List<Horario> buscarPorMonitor(String monitor) {
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -169,7 +148,7 @@ public class HorarioDAOJDBC implements HorarioDAO {
         LocalDate fimSemana = data.with(DayOfWeek.FRIDAY);
 
         try {
-            st = conn.prepareStatement("select * from horario where data_horario between ? and ? and nome_monitor = ? ORDER BY data_horario order by data_horario;");
+            st = conn.prepareStatement("select * from horario where data_horario between ? and ? and nome_monitor = ? ORDER BY data_horario;");
             st.setDate(1, java.sql.Date.valueOf(inicioSemana));
             st.setDate(2, java.sql.Date.valueOf(fimSemana));
             st.setString(3, monitor);
@@ -304,47 +283,6 @@ public class HorarioDAOJDBC implements HorarioDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public List<Visitante> buscarVisitantesHorario(Integer idHorario) {
-        List<Visitante> lista = new ArrayList<>();
-        PreparedStatement st = null;
-
-        try {
-            st = conn.prepareStatement("SELECT v.* FROM visitante v INNER JOIN frequencia f ON v.matricula = f.id_visitante WHERE f.id_horario = ?");
-            st.setInt(1, idHorario);
-            ResultSet rs = st.executeQuery();
-
-            while (rs.next()) {
-                Visitante visitante = new Visitante(rs.getInt("matricula"), rs.getString("nome"), rs.getInt("idade"), rs.getString("genero"), rs.getString("nivel_ensino"), rs.getString("curso"), rs.getString("turno"), rs.getBoolean("possuiNEE"));
-                lista.add(visitante);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return lista;
-    }
-
-    @Override
-    public List<Jogo> buscarJogosHorario(Integer idHorario) {
-        List<Jogo> lista = new ArrayList<>();
-        PreparedStatement st = null;
-        ResultSet rs = null;
-
-        try{
-            st = conn.prepareStatement("SELECT j.* FROM jogo j INNER JOIN uso_jogo uj ON j.id_jogo = uj.id_jogo WHERE uj.id_horario = ?");
-            st.setInt(1, idHorario);
-            rs = st.executeQuery();
-            while(rs.next()){
-                Jogo jogo = new Jogo(rs.getInt("id_jogo"), rs.getString("titulo"), rs.getString("tipo"), rs.getInt("min_numero_jogadores"), rs.getInt("max_numero_jogadores"), rs.getString("descricao"), rs.getString("marca"), rs.getInt("faixaEtaria"), rs.getInt("tempo_partida"), rs.getBoolean("disponibilidade"));
-                lista.add(jogo);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return lista;
     }
 
     @Override

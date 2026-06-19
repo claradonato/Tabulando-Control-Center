@@ -47,7 +47,7 @@
             <Image url="@images/Tabulando.png" />
          </image>
       </ImageView>
-      <Label fx:id="usuarioOuSenhaIncorreto" layoutX="186.0" layoutY="300.0" prefHeight="18.0" prefWidth="238.0" textFill="#ff0707">
+      <Label fx:id="usuarioOuSenhaIncorreto" layoutX="228.0" layoutY="299.0" prefHeight="18.0" prefWidth="238.0" textFill="#ff0707">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>
