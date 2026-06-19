@@ -1,6 +1,9 @@
 package com.example.sistemagerenciamentotabulando.controller;
 
 import com.example.sistemagerenciamentotabulando.Application;
+import com.example.sistemagerenciamentotabulando.exceptions.CampoVazioException;
+import com.example.sistemagerenciamentotabulando.exceptions.JogoInvalidoException;
+import com.example.sistemagerenciamentotabulando.exceptions.NumeroInvalidoException;
 import com.example.sistemagerenciamentotabulando.model.dao.DAOFactory;
 import com.example.sistemagerenciamentotabulando.model.entities.Horario;
 import com.example.sistemagerenciamentotabulando.model.entities.Jogo;
@@ -187,7 +190,8 @@ public class JogosController implements Initializable {
                 qtd = Integer.parseInt(qtdTexto);
             }
             catch(NumberFormatException e){
-                avisoFiltro.setText("Quantidade inválida.");
+                System.out.println(new NumeroInvalidoException("Quantidade de jogadores").getMessage());
+                avisoFiltro.setText("Valor inválido para nº jogadores");
                 return;
             }
         }
@@ -294,8 +298,30 @@ public class JogosController implements Initializable {
 
     @FXML
     protected void onSalvarJogoClicked(){
-        Jogo j = new Jogo(tituloAdicionar.getText(), tipoAdicionar.getValue(), Integer.parseInt(minJogadores.getText()), Integer.parseInt(maxJogadores.getText()), descricaoAdicionar.getText(), marcaAdicionar.getValue(), Integer.parseInt(faixaEtariaAdicionar.getText()), Integer.parseInt(tempoPartidaAdicionar.getText()), Boolean.valueOf(disponibilidadeAdicionar.getValue()));
-        DAOFactory.createJogoDAO().inserir(j);
+        try{
+            Jogo j = new Jogo(tituloAdicionar.getText(), tipoAdicionar.getValue(), Integer.parseInt(minJogadores.getText()), Integer.parseInt(maxJogadores.getText()), descricaoAdicionar.getText(), marcaAdicionar.getValue(), Integer.parseInt(faixaEtariaAdicionar.getText()), Integer.parseInt(tempoPartidaAdicionar.getText()), Boolean.valueOf(disponibilidadeAdicionar.getValue()));
+            DAOFactory.createJogoDAO().inserir(j);
+
+            if(Integer.parseInt(minJogadores.getText()) > Integer.parseInt(maxJogadores.getText())){
+                throw new JogoInvalidoException("O número mínimo de jogadores não pode ser maior que o máximo.");
+            }
+
+            if(tituloAdicionar.getText().isBlank())
+                throw new CampoVazioException("Título");
+
+            if(tipoAdicionar.getValue() == null)
+                throw new CampoVazioException("Tipo");
+
+            if(marcaAdicionar.getValue() == null)
+                throw new CampoVazioException("Marca");
+
+            if(disponibilidadeAdicionar.getValue() == null)
+                throw new CampoVazioException("Disponibilidade");
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+            return;
+        }
+
         tituloAdicionar.setText(" ");
         tipoAdicionar.setValue(" ");
         minJogadores.setText(" ");

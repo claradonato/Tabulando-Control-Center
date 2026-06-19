@@ -1,6 +1,7 @@
 package com.example.sistemagerenciamentotabulando.controller;
 
 import com.example.sistemagerenciamentotabulando.Application;
+import com.example.sistemagerenciamentotabulando.exceptions.CampoVazioException;
 import com.example.sistemagerenciamentotabulando.model.dao.DAOFactory;
 import com.example.sistemagerenciamentotabulando.model.entities.*;
 import javafx.collections.FXCollections;
@@ -270,8 +271,26 @@ public class HorariosController implements Initializable {
 
     @FXML
     protected void onAdcHorarioClicked(){
-        Horario h = new Horario(dataHorarioAdicionar.getValue(), turnoAdicionar.getValue(), horaAdicionar.getValue(), nomeMonitorAdicionar.getValue(), statusHorarioAdicionar.getValue());
-        DAOFactory.createHorarioDAO().inserir(h);
+        try{
+            Horario h = new Horario(dataHorarioAdicionar.getValue(), turnoAdicionar.getValue(), horaAdicionar.getValue(), nomeMonitorAdicionar.getValue(), statusHorarioAdicionar.getValue());
+            DAOFactory.createHorarioDAO().inserir(h);
+
+            if(dataHorarioAdicionar.getValue() == null)
+                throw new CampoVazioException("Data");
+
+            if(turnoAdicionar.getValue() == null)
+                throw new CampoVazioException("Turno");
+
+            if(horaAdicionar.getValue() == null)
+                throw new CampoVazioException("Hora");
+
+            if(nomeMonitorAdicionar.getValue() == null)
+                throw new CampoVazioException("Monitor");
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return;
+        }
+
         dataHorarioAdicionar.setValue(null);
         turnoAdicionar.setValue(null);
         horaAdicionar.setValue(null);
